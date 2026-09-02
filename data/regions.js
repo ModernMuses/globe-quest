@@ -1,0 +1,57 @@
+// Globe Quest — world regions (a level finer than continents). Safe to edit.
+// Two kinds:
+//   • subregions — the built-in UN sub-regions already on each country (matched by `subregion`),
+//     shown with friendlier names. These power BOTH "Find" and "Name" (each country has exactly one).
+//   • custom — famous informal regions defined by an explicit country list (ISO-3). These are
+//     "Find" only (they overlap the subregions, so naming them would be ambiguous).
+// Member centres (for the on-map label) are computed in app.js from the member countries.
+window.REGIONS_DEF = {
+  subregions: {
+    'Northern Africa':          { name: 'North Africa',    fact: 'Cut off from the rest of Africa by the Sahara, it has always looked north across the Mediterranean.' },
+    'Eastern Africa':           { name: 'East Africa',      fact: 'The Great Rift Valley slices through it — and its highlands are where humankind first arose.' },
+    'Western Africa':           { name: 'West Africa',      fact: 'Home to the mighty Niger River and, centuries ago, the gold-rich empires of Mali and Songhai.' },
+    'Middle Africa':            { name: 'Central Africa',   fact: 'The Congo Basin here holds the world’s second-largest rainforest, after the Amazon.' },
+    'Southern Africa':          { name: 'Southern Africa',  fact: 'The Kalahari and the diamond-rich veld meet where the continent tapers to the Cape.' },
+    'Northern Europe':          { name: 'Northern Europe',  fact: 'The land of the midnight sun — in high summer it never truly gets dark.' },
+    'Western Europe':           { name: 'Western Europe',   fact: 'A small, densely-woven cluster of nations that shaped much of the modern world.' },
+    'Central Europe':           { name: 'Central Europe',   fact: 'The Danube, Europe’s second-longest river, threads through its heart past four capital cities.' },
+    'Eastern Europe':           { name: 'Eastern Europe',   fact: 'Vast plains roll east toward the Urals — it includes the largest country on Earth by land.' },
+    'Southern Europe':          { name: 'Southern Europe',  fact: 'Three great peninsulas — Iberian, Italian and Balkan — reach into the Mediterranean.' },
+    'Southeast Europe':         { name: 'Southeast Europe', fact: 'A mosaic of mountains and cultures at the crossroads of Europe and Asia.' },
+    'Western Asia':             { name: 'Western Asia',     fact: 'The cradle of civilisation — Mesopotamia, between the Tigris and Euphrates, lies here.' },
+    'Central Asia':             { name: 'Central Asia',     fact: 'The old Silk Road caravans crossed these steppes and deserts between China and Europe.' },
+    'Southern Asia':            { name: 'South Asia',       fact: 'Walled off by the Himalayas, it is home to well over a fifth of all the people on Earth.' },
+    'Eastern Asia':             { name: 'East Asia',        fact: 'The most populous region on the planet, anchored by China, Japan and the Koreas.' },
+    'South-Eastern Asia':       { name: 'Southeast Asia',   fact: 'A tropical realm of thousands of islands — Indonesia alone has more than 17,000.' },
+    'Central America':          { name: 'Central America',  fact: 'A narrow land bridge between two continents, pinched thin at the Panama Canal.' },
+    'Caribbean':                { name: 'Caribbean',        fact: 'Hundreds of islands curve in a long arc enclosing the warm Caribbean Sea.' },
+    'North America':            { name: 'North America',    fact: 'Just a few enormous countries fill most of the continent’s northern half.' },
+    'South America':            { name: 'South America',    fact: 'The Andes run its whole western edge — the longest mountain range on land.' },
+    'Australia and New Zealand':{ name: 'Australia & NZ',   fact: 'An isolated corner of the world where marsupials and flightless birds evolved on their own.' },
+    'Melanesia':                { name: 'Melanesia',        fact: 'Papua New Guinea alone speaks over 800 languages — the most of any country.' },
+    'Micronesia':               { name: 'Micronesia',       fact: 'Thousands of tiny islands are scattered across a stretch of Pacific bigger than Europe.' },
+    'Polynesia':                { name: 'Polynesia',        fact: 'A vast ocean triangle whose seafarers reached Hawaii, Easter Island and New Zealand.' },
+  },
+  custom: [
+    { key: 'arabian-peninsula', name: 'Arabian Peninsula', iso: ['SAU', 'YEM', 'OMN', 'ARE', 'QAT', 'BHR', 'KWT'],
+      fact: 'The Rub’ al Khali, or Empty Quarter, is the largest continuous sand desert on Earth.' },
+    { key: 'scandinavia', name: 'Scandinavia', iso: ['SWE', 'NOR', 'DNK'],
+      fact: 'Norway’s fjord-folded coastline would wrap more than halfway around the world if pulled straight.' },
+    { key: 'balkans', name: 'Balkans', iso: ['SVN', 'HRV', 'BIH', 'SRB', 'MNE', 'MKD', 'ALB', 'BGR', 'GRC', 'ROU'],
+      fact: 'Named for the Balkan mountains — the peninsula even gave English the word “balkanize.”' },
+    { key: 'baltics', name: 'Baltic States', iso: ['EST', 'LVA', 'LTU'],
+      fact: 'In 1989 two million people linked hands in a 675 km human chain across all three for independence.' },
+    { key: 'caucasus', name: 'Caucasus', iso: ['GEO', 'ARM', 'AZE'],
+      fact: 'Its mountains are often taken as the very dividing line between Europe and Asia.' },
+    { key: 'horn-of-africa', name: 'Horn of Africa', iso: ['ETH', 'SOM', 'DJI', 'ERI'],
+      fact: 'This horn-shaped peninsula points across the Bab-el-Mandeb strait toward Arabia.' },
+    { key: 'british-isles', name: 'British Isles', iso: ['GBR', 'IRL'],
+      fact: 'Two sovereign states share an Atlantic archipelago of more than 6,000 islands.' },
+    { key: 'iberia', name: 'Iberian Peninsula', iso: ['ESP', 'PRT', 'AND'],
+      fact: 'The Pyrenees wall it off from the rest of Europe — with tiny Andorra tucked in the peaks.' },
+    { key: 'levant', name: 'Levant', iso: ['SYR', 'LBN', 'JOR', 'ISR'],
+      fact: 'An eastern-Mediterranean crossroads with some of the oldest lived-in cities on Earth, like Damascus.' },
+    { key: 'maghreb', name: 'Maghreb', iso: ['MAR', 'DZA', 'TUN', 'LBY', 'MRT'],
+      fact: 'Arabic for “the west” — the sunset lands between the Atlas Mountains and the Sahara.' },
+  ],
+};

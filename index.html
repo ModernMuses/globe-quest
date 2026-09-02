@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Globe Quest — Learn the Countries of the World</title>
+  <meta name="description" content="A clean, friendly game for learning the world's countries: maps, flags, capitals and fun facts. For kids and grown-ups." />
+
+  <!-- Friendly, readable type -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet" />
+
+  <!-- dev: bust the CSS cache on localhost so style edits show on a normal reload (⌘R) -->
+  <script>(function(){var v=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'?t='+Date.now():'';document.write('<link rel="stylesheet" href="assets/styles.css'+v+'">');})();</script>
+  <noscript><link rel="stylesheet" href="assets/styles.css" /></noscript>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>" />
+</head>
+<body>
+  <div id="app">
+    <!-- ============ HEADER ============ -->
+    <header class="app-header">
+      <button class="brand" id="homeBtn" title="Back to home">
+        <span class="brand-emoji" id="brandIcon"></span>
+        <span class="brand-text">Globe Quest</span>
+      </button>
+      <div class="header-right">
+        <div class="scoreboard" id="scoreboard" hidden>
+          <span class="stat" title="Question"><span id="progressText">0 / 0</span></span>
+          <span class="stat stat-score" id="statScore" title="Score"><span id="scoreText">0</span></span>
+          <span class="stat stat-streak" id="statStreak" title="Streak"><span id="streakText">0</span></span>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ============ HOME SCREEN ============ -->
+      <section class="screen home-screen" id="homeScreen">
+        <div class="home-intro">
+          <h1>Globe Quest</h1>
+          <p class="lede">Explore the world, or pick a game. No sign-up — just start.</p>
+        </div>
+        <div class="home-grid" id="modeGrid"></div>
+      </section>
+
+      <!-- ============ ROUND SCREEN ============ -->
+      <section class="screen round-screen" id="roundScreen" hidden>
+        <div class="round-top">
+          <button class="ghost-btn" id="quitBtn">‹ Quit</button>
+          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+
+        <!-- Floating head: category selector (same chips as Explore) + the question prompt -->
+        <div class="round-head" id="roundHead">
+          <div class="chips round-modes" id="roundModes" role="radiogroup" aria-label="What to quiz" hidden></div>
+          <h2 class="prompt" id="prompt">—</h2>
+        </div>
+
+        <!-- Full-screen map: the permanent stage for every quiz mode -->
+        <div class="map-panel" id="mapPanel" hidden>
+          <svg id="map" role="img" aria-label="World map"></svg>
+          <div class="map-hint" id="mapHint"></div>
+          <div class="map-tools">
+            <button class="map-tool" id="zoomIn" aria-label="Zoom in"></button>
+            <button class="map-tool" id="zoomOut" aria-label="Zoom out"></button>
+            <button class="map-tool" id="zoomReset" aria-label="Reset view"></button>
+          </div>
+        </div>
+
+        <!-- Big flag (guess-the-flag only) -->
+        <div class="media-slot" id="mediaSlot" hidden>
+          <img id="bigFlag" alt="Flag to identify" />
+        </div>
+
+        <!-- Frosted dock: the answer controls (multiple-choice) only -->
+        <div class="dock" id="dock">
+          <div class="sheet-grip" aria-hidden="true"></div>
+          <div class="options" id="dockOptions"></div>
+        </div>
+
+        <!-- Answer reveal: Explorer-style info card on the right -->
+        <aside class="atlas-card round-card" id="roundCard" hidden>
+          <div class="feedback" id="feedback" aria-live="polite"></div>
+          <div class="factcard" id="factcard" hidden></div>
+          <div class="round-actions">
+            <button class="primary-btn" id="nextBtn" hidden>Next ›</button>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ============ EXPLORE / ATLAS SCREEN ============ -->
+      <section class="screen explore-screen" id="exploreScreen" hidden>
+        <div class="explore-top">
+          <button class="ghost-btn" id="exploreQuit">‹ Back</button>
+          <div class="chips explore-modes" id="exploreModes" role="radiogroup" aria-label="What to explore"></div>
+          <div class="search-wrap">
+            <input id="exploreSearch" type="search" placeholder="Search a country…" autocomplete="off" aria-label="Search a country" />
+            <div class="search-results" id="searchResults" hidden></div>
+          </div>
+        </div>
+        <p class="explore-hint" id="exploreHint">Tap any country on the map — or search — to read about it. Pure exploring, no score.</p>
+        <div class="explore-body">
+          <div class="map-panel explore-map" id="exploreMapPanel">
+            <svg id="exploreMap" role="img" aria-label="World map to explore"></svg>
+            <div class="map-tools">
+              <button class="map-tool" id="exZoomIn" aria-label="Zoom in">＋</button>
+              <button class="map-tool" id="exZoomOut" aria-label="Zoom out">－</button>
+              <button class="map-tool" id="exZoomReset" aria-label="Reset view">⤢</button>
+            </div>
+          </div>
+          <aside class="atlas-card" id="atlasCard">
+            <div class="atlas-empty" id="atlasEmpty">
+              <span class="atlas-empty-emoji" id="atlasEmptyIcon"></span>
+              <p>Pick a country to begin.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ PREVIEW / STUDY SCREEN ============ -->
+      <section class="screen preview-screen" id="previewScreen" hidden>
+        <div class="explore-top">
+          <button class="ghost-btn" id="previewQuit">Back</button>
+          <div class="search-wrap">
+            <input id="previewSearch" type="search" placeholder="Search a country…" autocomplete="off" aria-label="Search a country" />
+            <div class="search-results" id="previewResults" hidden></div>
+          </div>
+          <button class="chip toggle-chip" id="labelToggle" aria-pressed="false"></button>
+        </div>
+        <p class="explore-hint">Hover or tap any country to see its name — a quick way to learn the map before you play.</p>
+        <div class="preview-regions" id="previewRegions"></div>
+        <div class="preview-body">
+          <div class="map-panel preview-map" id="previewMapPanel">
+            <svg id="previewMap" role="img" aria-label="World map to study"></svg>
+            <div class="name-label" id="nameLabel" hidden></div>
+            <div class="map-tools">
+              <button class="map-tool" id="pvFull" aria-label="Toggle fullscreen"></button>
+              <button class="map-tool" id="pvZoomIn" aria-label="Zoom in"></button>
+              <button class="map-tool" id="pvZoomOut" aria-label="Zoom out"></button>
+              <button class="map-tool" id="pvZoomReset" aria-label="Reset view"></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ RESULTS SCREEN ============ -->
+      <section class="screen results-screen" id="resultsScreen" hidden>
+        <div class="results-card">
+          <div class="results-emoji" id="resultsEmoji">🎉</div>
+          <h2 id="resultsTitle">Nice work!</h2>
+          <p class="results-score" id="resultsScore">—</p>
+          <div class="results-bars" id="resultsBars"></div>
+          <div class="review" id="review" hidden>
+            <h3>Worth a second look</h3>
+            <div class="review-list" id="reviewList"></div>
+          </div>
+          <div class="results-actions">
+            <button class="primary-btn" id="playAgainBtn">Play again</button>
+            <button class="ghost-btn" id="chooseModeBtn">Choose another game</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Global settings (region + length) — reachable from any game / map screen -->
+    <button class="settings-btn" id="settingsBtn" hidden aria-haspopup="true" aria-expanded="false" aria-label="Change region and length"></button>
+    <div class="settings-pop" id="settingsPop" hidden role="dialog" aria-label="Game settings">
+      <div class="set-group">
+        <span class="set-label">Where in the world?</span>
+        <div class="chips" id="setRegions" role="radiogroup" aria-label="Region"></div>
+      </div>
+      <div class="set-group">
+        <span class="set-label">How many?</span>
+        <div class="chips" id="setLengths" role="radiogroup" aria-label="Round length"></div>
+      </div>
+      <p class="set-hint" id="setHint" hidden>Changes restart the current game.</p>
+    </div>
+
+    <footer class="app-footer">
+      <span>Made for curious humans of all ages.</span>
+      <span class="footer-dot">•</span>
+      <span id="countCount">—</span>
+      <span class="footer-dot">•</span>
+      <span class="footer-credits">
+        Data: <a href="https://github.com/mledoze/countries" target="_blank" rel="noopener">mledoze/countries</a>
+        (<a href="https://opendatacommons.org/licenses/odbl/" target="_blank" rel="noopener">ODbL</a>) ·
+        <a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener">Natural Earth</a> ·
+        flags <a href="https://flagcdn.com" target="_blank" rel="noopener">flagcdn.com</a>
+      </span>
+      <span class="footer-dot">•</span>
+      <span class="footer-privacy">No accounts or cookies. Anonymous gameplay stats only — no personal data.</span>
+    </footer>
+  </div>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <!-- Libraries (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+
+  <!-- Data (dev: cache-busted on localhost so data edits show on a normal reload) -->
+  <script>(function(){var v=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'?t='+Date.now():'';
+    ['data/world.js','data/countries.js','data/continents.js','data/regions.js','data/waters.js','data/waters-geo.js','assets/icons.js','assets/illustrations.js']
+      .forEach(function(s){document.write('<script src="'+s+v+'"><\/script>');});})();</script>
+
+  <!-- App -->
+  <script>/* dev cache-bust icons already handled above */</script>
+  <script>/* dev: bust the JS code-cache on localhost so edits show on a normal reload */
+    (function(){var v=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'?t='+Date.now():'';document.write('<script src="assets/map.js'+v+'"><\/script>');})();</script>
+  <script src="assets/config.js"></script>
+  <script src="assets/analytics.js"></script>
+  <script>(function(){var v=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'?t='+Date.now():'';document.write('<script src="assets/app.js'+v+'"><\/script>');})();</script>
+</body>
+</html>

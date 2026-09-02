@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Globe Quest — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>" />
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: 'Nunito', system-ui, sans-serif; margin: 0;
+      background: var(--bg, #eef3fb); color: var(--ink, #1f2a44);
+      min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 28px 20px 64px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+    h1 { font-size: 1.5rem; margin: 0; font-weight: 900; letter-spacing: -.01em; }
+    .muted { color: var(--ink-soft, #5a6680); font-size: .9rem; }
+    .btn { font: inherit; font-weight: 800; border: 0; border-radius: 12px; padding: 11px 16px;
+      background: var(--accent, #3b6cf6); color: #fff; cursor: pointer; }
+    .btn.ghost { background: transparent; color: var(--ink, #1f2a44);
+      border: 1px solid var(--line, #d4ddee); font-weight: 700; }
+    .btn:disabled { opacity: .55; cursor: default; }
+    .card { background: var(--card, #fff); border: 1px solid var(--line, #e2e9f6);
+      border-radius: 18px; padding: 18px 20px; box-shadow: 0 1px 2px rgba(20,30,60,.05); }
+    .grid { display: grid; gap: 16px; }
+    .stats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    .stat .n { font-size: 1.9rem; font-weight: 900; line-height: 1.1; }
+    .stat .l { font-size: .82rem; color: var(--ink-soft, #5a6680); margin-top: 2px; }
+    .section { margin-top: 22px; }
+    .section h2 { font-size: 1.05rem; margin: 0 0 12px; font-weight: 800; }
+    table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line, #eef1f8); }
+    th { font-size: .76rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft, #5a6680); font-weight: 800; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .flag { width: 22px; height: 15px; object-fit: cover; border-radius: 3px; vertical-align: -2px; margin-right: 8px; box-shadow: 0 0 0 1px rgba(0,0,0,.08); }
+    .bar { height: 9px; border-radius: 6px; background: var(--accent, #3b6cf6); }
+    .bartrack { background: var(--line, #eef1f8); border-radius: 6px; overflow: hidden; }
+    .login { max-width: 380px; margin: 12vh auto 0; }
+    .login h1 { margin-bottom: 6px; }
+    .field { display: block; margin: 14px 0 4px; font-weight: 700; font-size: .86rem; }
+    input[type=email], input[type=password] { width: 100%; box-sizing: border-box; font: inherit;
+      padding: 11px 13px; border-radius: 12px; border: 1px solid var(--line, #d4ddee);
+      background: var(--card, #fff); color: inherit; }
+    .row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+    .err { color: #c2334d; font-weight: 700; font-size: .88rem; margin-top: 12px; min-height: 1.2em; }
+    .hide { display: none !important; }
+    svg text { font-family: 'Nunito', sans-serif; }
+    .legend { display: flex; gap: 16px; font-size: .82rem; color: var(--ink-soft, #5a6680); margin-bottom: 6px; }
+    .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: 0; margin-right: 5px; }
+  </style>
+</head>
+<body>
+  <!-- LOGIN -->
+  <div class="wrap login" id="loginView">
+    <div class="card">
+      <h1>📊 Globe Quest Admin</h1>
+      <p class="muted">Sign in to view usage analytics.</p>
+      <label class="field" for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" />
+      <label class="field" for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" />
+      <div class="row">
+        <button class="btn" id="signInBtn">Sign in</button>
+        <button class="btn ghost" id="magicBtn">Email me a link</button>
+      </div>
+      <div class="err" id="loginErr"></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="wrap hide" id="dashView">
+    <div class="topbar">
+      <div>
+        <h1>📊 Globe Quest — Usage</h1>
+        <span class="muted" id="who"></span>
+      </div>
+      <div class="row" style="margin:0">
+        <button class="btn ghost" id="refreshBtn">Refresh</button>
+        <button class="btn ghost" id="signOutBtn">Sign out</button>
+      </div>
+    </div>
+
+    <div class="grid stats section" id="statCards"></div>
+
+    <div class="section">
+      <h2>Visitors &amp; sessions over time</h2>
+      <div class="card">
+        <div class="legend">
+          <span><span class="dot" style="background:var(--accent,#3b6cf6)"></span>Sessions</span>
+          <span><span class="dot" style="background:#22b07d"></span>Unique visitors</span>
+        </div>
+        <div id="dailyChart"></div>
+      </div>
+    </div>
+
+    <div class="grid section" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+      <div class="card">
+        <h2>Most-played games</h2>
+        <div id="modeChart"></div>
+      </div>
+      <div class="card">
+        <h2>Round completion</h2>
+        <div id="completionTable"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Hardest countries <span class="muted">(most wrong answers, ≥ 5 attempts)</span></h2>
+      <div class="card" id="hardestTable"></div>
+    </div>
+
+    <p class="muted section" id="emptyNote"></p>
+  </div>
+
+  <script src="../assets/config.js"></script>
+  <script src="../data/countries.js"></script>
+  <script type="module">
+    const cfg = window.GQ_CONFIG || {};
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    // iso3 -> {name, iso2} for friendly labels in the hardest-countries table
+    const BY_ISO3 = {};
+    (window.COUNTRIES || []).forEach((c) => { if (c.iso3) BY_ISO3[c.iso3] = c; });
+
+    if (!cfg.SUPABASE_URL || !cfg.SUPABASE_PUBLISHABLE_KEY) {
+      $('loginErr').textContent = 'Not configured yet. Fill in assets/config.js with your Supabase URL and publishable key.';
+      throw new Error('GQ_CONFIG missing');
+    }
+
+    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+    const sb = createClient(cfg.SUPABASE_URL, cfg.SUPABASE_PUBLISHABLE_KEY);
+    $('email').value = cfg.ADMIN_EMAIL || '';
+
+    async function route() {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) { showDash(session); } else { show('loginView'); }
+    }
+    function show(which) {
+      $('loginView').classList.toggle('hide', which !== 'loginView');
+      $('dashView').classList.toggle('hide', which !== 'dashView');
+    }
+
+    $('signInBtn').onclick = async () => {
+      $('loginErr').textContent = '';
+      $('signInBtn').disabled = true;
+      const { data, error } = await sb.auth.signInWithPassword({ value: $('email').value.trim(), password: $('password').value, email: $('email').value.trim() });
+      $('signInBtn').disabled = false;
+      if (error) { $('loginErr').textContent = error.message; return; }
+      showDash(data.session);
+    };
+    $('magicBtn').onclick = async () => {
+      $('loginErr').textContent = '';
+      const { error } = await sb.auth.signInWithOtp({ email: $('email').value.trim() });
+      $('loginErr').textContent = error ? error.message : 'Check your email for a sign-in link.';
+    };
+    $('signOutBtn').onclick = async () => { await sb.auth.signOut(); show('loginView'); };
+    $('refreshBtn').onclick = () => loadAll();
+
+    async function showDash(session) {
+      const email = session?.user?.email || '';
+      if (cfg.ADMIN_EMAIL && email.toLowerCase() !== cfg.ADMIN_EMAIL.toLowerCase()) {
+        await sb.auth.signOut();
+        show('loginView');
+        $('loginErr').textContent = 'That account is not the admin for this dashboard.';
+        return;
+      }
+      $('who').textContent = 'Signed in as ' + email;
+      show('dashView');
+      loadAll();
+    }
+
+    async function loadAll() {
+      const get = async (v) => { const { data, error } = await sb.from(v).select('*'); return error ? [] : (data || []); };
+      const [daily, modes, hardest, score, completion] = await Promise.all([
+        get('analytics_daily'), get('mode_popularity'), get('hardest_countries'),
+        get('score_summary'), get('completion_rate'),
+      ]);
+      renderStats(daily, score, completion);
+      renderDaily(daily);
+      renderModes(modes);
+      renderCompletion(completion);
+      renderHardest(hardest);
+      const total = daily.reduce((a, d) => a + (d.sessions || 0), 0);
+      $('emptyNote').textContent = total === 0
+        ? 'No events yet — play a few rounds on the live site, then hit Refresh.' : '';
+    }
+
+    function renderStats(daily, score, completion) {
+      const sessions = daily.reduce((a, d) => a + (d.sessions || 0), 0);
+      const visitors = daily.reduce((a, d) => a + (d.visitors || 0), 0);
+      const s = score[0] || {};
+      const all = completion.find((r) => r.game_mode === '(all)') || {};
+      const cards = [
+        ['Sessions', sessions],
+        ['Unique visitors', visitors],
+        ['Rounds finished', s.rounds_scored || 0],
+        ['Avg score', s.avg_score ?? '—'],
+        ['Completion', all.completion_rate != null ? Math.round(all.completion_rate * 100) + '%' : '—'],
+      ];
+      $('statCards').innerHTML = cards.map(([l, n]) =>
+        `<div class="card stat"><div class="n">${esc(n)}</div><div class="l">${esc(l)}</div></div>`).join('');
+    }
+
+    function renderDaily(rows) {
+      if (!rows.length) { $('dailyChart').innerHTML = '<p class="muted">No data yet.</p>'; return; }
+      const data = rows.slice(-30);
+      const W = 920, H = 200, pad = 28, n = data.length;
+      const max = Math.max(1, ...data.map((d) => Math.max(d.sessions || 0, d.visitors || 0)));
+      const bw = (W - pad * 2) / n;
+      const x = (i) => pad + i * bw + bw / 2;
+      const y = (v) => H - pad - (v / max) * (H - pad * 2);
+      const line = (key, color) => {
+        const pts = data.map((d, i) => `${x(i)},${y(d[key] || 0)}`).join(' ');
+        return `<polyline fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" points="${pts}"/>`
+          + data.map((d, i) => `<circle cx="${x(i)}" cy="${y(d[key] || 0)}" r="2.6" fill="${color}"/>`).join('');
+      };
+      const labels = data.map((d, i) => (i % Math.ceil(n / 8) === 0)
+        ? `<text x="${x(i)}" y="${H - 8}" font-size="10" fill="var(--ink-soft,#5a6680)" text-anchor="middle">${esc(String(d.day).slice(5))}</text>` : '').join('');
+      $('dailyChart').innerHTML =
+        `<svg viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img">
+           <line x1="${pad}" y1="${H - pad}" x2="${W - pad}" y2="${H - pad}" stroke="var(--line,#e2e9f6)"/>
+           <text x="${pad}" y="14" font-size="10" fill="var(--ink-soft,#5a6680)">${max}</text>
+           ${line('sessions', 'var(--accent,#3b6cf6)')}${line('visitors', '#22b07d')}${labels}
+         </svg>`;
+    }
+
+    const MODE_LABEL = { 'find-map': 'Find on the Map', 'name-country': 'Name the Country',
+      'guess-flag': 'Guess the Flag', 'match-flag': 'Match the Flag', 'capital': 'Capital City',
+      'which-country': 'Which Country?', 'mixed': 'Mix It Up' };
+
+    function renderModes(rows) {
+      if (!rows.length) { $('modeChart').innerHTML = '<p class="muted">No data yet.</p>'; return; }
+      const max = Math.max(1, ...rows.map((r) => r.rounds_started || 0));
+      $('modeChart').innerHTML = rows.map((r) => `
+        <div style="margin:10px 0">
+          <div style="display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:4px">
+            <span>${esc(MODE_LABEL[r.game_mode] || r.game_mode)}</span>
+            <strong>${esc(r.rounds_started)}</strong>
+          </div>
+          <div class="bartrack"><div class="bar" style="width:${Math.round((r.rounds_started / max) * 100)}%"></div></div>
+        </div>`).join('');
+    }
+
+    function renderCompletion(rows) {
+      const r = rows.filter((x) => x.game_mode !== '(all)');
+      if (!r.length) { $('completionTable').innerHTML = '<p class="muted">No data yet.</p>'; return; }
+      $('completionTable').innerHTML = `<table><thead><tr>
+        <th>Game</th><th class="num">Started</th><th class="num">Finished</th><th class="num">Rate</th>
+        </tr></thead><tbody>${r.map((x) => `<tr>
+          <td>${esc(MODE_LABEL[x.game_mode] || x.game_mode)}</td>
+          <td class="num">${esc(x.starts)}</td>
+          <td class="num">${esc(x.completes)}</td>
+          <td class="num">${x.completion_rate != null ? Math.round(x.completion_rate * 100) + '%' : '—'}</td>
+        </tr>`).join('')}</tbody></table>`;
+    }
+
+    function renderHardest(rows) {
+      if (!rows.length) { $('hardestTable').innerHTML = '<p class="muted">No country has ≥ 5 attempts yet.</p>'; return; }
+      $('hardestTable').innerHTML = `<table><thead><tr>
+        <th>Country</th><th class="num">Attempts</th><th class="num">Wrong</th><th class="num">Wrong rate</th>
+        </tr></thead><tbody>${rows.slice(0, 25).map((r) => {
+          const c = BY_ISO3[r.country_code];
+          const flag = c ? `<img class="flag" src="https://flagcdn.com/${c.iso2.toLowerCase()}.svg" alt="" />` : '';
+          const name = c ? c.name : r.country_code;
+          return `<tr><td>${flag}${esc(name)}</td>
+            <td class="num">${esc(r.attempts)}</td>
+            <td class="num">${esc(r.wrong)}</td>
+            <td class="num">${Math.round((r.wrong_rate || 0) * 100)}%</td></tr>`;
+        }).join('')}</tbody></table>`;
+    }
+
+    route();
+  </script>
+</body>
+</html>

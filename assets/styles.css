@@ -185,8 +185,8 @@ img { -webkit-user-drag: none; user-select: none; }
   background: var(--surface); border: 2px solid var(--border); border-radius: 26px;
   padding: 18px 20px 20px; box-shadow: 0 6px 0 var(--border);
 }
-/* Ume + a geo object, tucked top-right of every group (from the Baby Cards/Backgrounds/Objects set) */
-.group-art { position: absolute; right: 10px; top: 6px; height: 92px; width: auto; pointer-events: none; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+/* An Ume pose tucked top-right of every group (Plum Mascot 2D set) */
+.group-art { position: absolute; right: 14px; top: 8px; height: 84px; width: auto; pointer-events: none; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
 .game-group:hover .group-art { transform: translateY(-3px) rotate(-3deg) scale(1.04); }
 .group-head { padding-right: 120px; }
 .group-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
@@ -219,7 +219,7 @@ img { -webkit-user-drag: none; user-select: none; }
 
 @media (max-width: 760px) {
   .game-group { padding: 16px 14px 18px; }
-  .group-art { height: 70px; right: 8px; top: 8px; }
+  .group-art { height: 64px; right: 10px; top: 8px; }
   .group-head { padding-right: 90px; }
   .preview-tile { flex-basis: 30%; max-width: none; }
 }

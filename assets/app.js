@@ -92,18 +92,18 @@
   const RIVERLAKE_TYPES = ['river', 'lake'];
 
   // The four games on the home screen. Each shows category chips (except Mix) + a hover tip.
-  // art = Ume holding a geo object (assets/ume/obj-*.png, from the Baby Cards illustration set).
+  // art = an Ume pose from the Plum Mascot set (assets/ume/2d-*.png) shown top-right of the group.
   const GAMES = [
-    { id: 'find', icon: 'crosshair', art: 'map-and-pins', title: 'Find on Map', sub: 'We name it — you find it.',
+    { id: 'find', icon: 'crosshair', art: '2d-energetic', title: 'Find on Map', sub: 'We name it — you find it.',
       tip: 'We name a place — a country, continent, ocean, river, lake or capital, or show a flag — and you find and tap it on the map.',
       cats: ['countries', 'continents', 'regions', 'oceans', 'rivers', 'capitals', 'flags'] },
-    { id: 'name', icon: 'pin', art: 'quiz-tablet', title: 'Name It', sub: 'We show it — you name it.',
+    { id: 'name', icon: 'pin', art: '2d-determined', title: 'Name It', sub: 'We show it — you name it.',
       tip: 'We mark a place on the map (or show a flag) and you pick its name from four choices.',
       cats: ['countries', 'continents', 'regions', 'oceans', 'rivers', 'capitals', 'flags'] },
-    { id: 'match', icon: 'grid', art: 'flag-cards', title: 'Match', sub: 'Find the right match.',
+    { id: 'match', icon: 'grid', art: '2d-playful', title: 'Match', sub: 'Find the right match.',
       tip: 'Match a country to its flag or capital, or a country to the continent it belongs to — pick the right pair.',
       cats: ['flags', 'capitals', 'continents'] },
-    { id: 'mix', icon: 'shuffle', art: 'travel-suitcase', title: 'Mix', sub: 'A little of everything.',
+    { id: 'mix', icon: 'shuffle', art: '2d-celebrating', title: 'Mix', sub: 'A little of everything.',
       tip: 'Finding, naming, flags and capitals — every kind of question, all shuffled together.',
       cats: [] },
   ];
@@ -455,7 +455,7 @@
       `<span class="group-text"><span class="group-title">${title}</span><span class="group-sub">${sub}</span></span>`;
     const row = el('div', 'tile-row');
     tiles.forEach((t) => row.appendChild(t));
-    if (art) group.insertAdjacentHTML('afterbegin', UME('obj-' + art, 'group-art'));
+    if (art) group.insertAdjacentHTML('afterbegin', UME(art, 'group-art'));
     group.append(head, row);
     return group;
   }
@@ -477,7 +477,7 @@
     // Explore last — the free-roam, no-score option, same tile pattern as the games
     // (and reuses their illustrations) but tinted to stand apart.
     const exTiles = EXPLORE_CATS.map((cat) => previewTile(cat, CAT_LABEL[cat], () => openExplore(cat)));
-    grid.appendChild(gameGroup('compass', 'Explore', 'Roam freely — no score.', exTiles, 'group-explore', 'globe-and-passport'));
+    grid.appendChild(gameGroup('compass', 'Explore', 'Roam freely — no score.', exTiles, 'group-explore', '2d-happy'));
     // Ume's greeting rotates each visit home
     const HELLO = ['Hi! Where shall we go today?', 'Ready? Pick a game!', 'I bet you can find Tuvalu.', 'One more round?', 'Flags or capitals today?'];
     const hb = $('homeBubble'); if (hb) hb.textContent = HELLO[Math.floor(Math.random() * HELLO.length)];

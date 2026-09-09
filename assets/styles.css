@@ -578,8 +578,9 @@ body.full-map #roundModes .chip.active { background: var(--accent); border-color
 .footer-dot { opacity: .5; }
 .footer-credits, .footer-privacy { font-size: .82rem; opacity: .85; }
 .app-footer a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-.footer-ume { display: inline-flex; align-items: center; gap: 6px; font-weight: 900; color: var(--navy); text-decoration: none !important; }
-.footer-ume img.footer-logo { height: 22px; width: auto; }
+/* the logo's leaf sits above the wordmark, so align the IMAGE BOTTOM to the text baseline, not centres */
+.footer-ume { display: inline-flex; align-items: baseline; gap: 7px; font-weight: 900; color: var(--navy); text-decoration: none !important; }
+.footer-ume img.footer-logo { height: 26px; width: auto; align-self: baseline; transform: translateY(1px); }
 .app-footer a:hover { color: var(--accent); }
 
 /* ---------- map shapes ---------- */

@@ -417,27 +417,28 @@ body.full-map #dock.dragging .sheet-grip { cursor: grabbing; }
 /* ---------- feedback + fact card ---------- */
 /* The verdict: a big Ume on the left, telling you the result in a speech bubble. */
 .feedback {
-  display: flex; align-items: center; gap: 10px; text-align: left; font-weight: 800; font-size: 1.02rem;
-  margin: 18px 0 6px; padding: 0; border: 0; background: none; color: var(--navy); line-height: 1.35;
+  display: flex; flex-direction: column-reverse; align-items: flex-start; gap: 10px; text-align: left;
+  font-weight: 800; font-size: 1.02rem; margin: 18px 0 6px; padding: 0; border: 0; background: none;
+  color: var(--navy); line-height: 1.35;
 }
 .feedback .fb-text {
-  position: relative; flex: 1 1 160px; min-width: 0;
+  position: relative; width: 100%; min-width: 0;
   padding: 12px 14px; border: 2px solid var(--border); border-radius: 18px; background: var(--surface);
   box-shadow: 0 4px 0 var(--border);
 }
-/* bubble tail pointing at Ume */
-.feedback .fb-text::before { content: ""; position: absolute; left: -13px; top: 26px; border: 11px solid transparent; border-right-color: var(--border); border-left: 0; }
-.feedback .fb-text::after  { content: ""; position: absolute; left: -10px; top: 28px; border: 9px solid transparent; border-right-color: var(--surface); border-left: 0; }
+/* bubble tail pointing DOWN at Ume, who stands under it */
+.feedback .fb-text::before { content: ""; position: absolute; left: 34px; bottom: -13px; border: 11px solid transparent; border-top-color: var(--border); border-bottom: 0; }
+.feedback .fb-text::after  { content: ""; position: absolute; left: 36px; bottom: -9px; border: 9px solid transparent; border-top-color: var(--surface); border-bottom: 0; }
 .fb-msg b { font-weight: 900; }
 /* Ume reacts to every answer: a little celebrating / determined plum */
-.fb-ume { width: 104px; height: 104px; object-fit: contain; flex: none; animation: umepop .45s cubic-bezier(.34,1.56,.64,1); }
+.fb-ume { width: 112px; height: 112px; object-fit: contain; flex: none; margin: 4px 0 0 8px; animation: umepop .45s cubic-bezier(.34,1.56,.64,1); }
 @keyframes umepop { from { transform: scale(.5) rotate(-8deg); } to { transform: scale(1); } }
 /* correct = green bubble, wrong = rose bubble; the names carry the colour, the sentence stays calm */
 .feedback.ok .fb-text { background: var(--ok-soft); border-color: #BFE3B4; box-shadow: 0 4px 0 #BFE3B4; }
-.feedback.ok .fb-text::before { border-right-color: #BFE3B4; } .feedback.ok .fb-text::after { border-right-color: var(--ok-soft); }
+.feedback.ok .fb-text::before { border-top-color: #BFE3B4; } .feedback.ok .fb-text::after { border-top-color: var(--ok-soft); }
 .feedback.ok .fb-msg { color: var(--ok); }
 .feedback.no .fb-text { background: var(--no-soft); border-color: #F7C3CE; box-shadow: 0 4px 0 #F7C3CE; }
-.feedback.no .fb-text::before { border-right-color: #F7C3CE; } .feedback.no .fb-text::after { border-right-color: var(--no-soft); }
+.feedback.no .fb-text::before { border-top-color: #F7C3CE; } .feedback.no .fb-text::after { border-top-color: var(--no-soft); }
 .feedback.no .fb-msg b { color: var(--no); }
 .fb-emoji { margin-right: 4px; }
 
@@ -551,7 +552,7 @@ body.full-map #roundModes .chip.active { background: var(--accent); border-color
 .rbar { height: 16px; background: var(--surface-2); border: 2px solid var(--border); border-radius: 999px; overflow: hidden; }
 .rbar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 999px; transition: width .8s ease; }
 /* proximity: the near-miss readout on the reveal + the round-average metric in results */
-.fb-prox { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; font-size: .8rem; font-weight: 700; color: var(--muted); }
+.fb-prox { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 8px; font-size: .8rem; font-weight: 700; color: var(--muted); }
 .fb-pill { background: var(--surface); border: 1.5px solid var(--border); border-radius: 999px; padding: 3px 9px; color: var(--navy); white-space: nowrap; }
 .fb-pill b { color: var(--accent); font-weight: 900; }
 .fb-phrase { font-weight: 800; }

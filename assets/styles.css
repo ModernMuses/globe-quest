@@ -85,15 +85,15 @@ img { -webkit-user-drag: none; user-select: none; }
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  max-width: 1040px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 0 18px;
+  padding: 0 28px;
 }
 
 /* ---------- header ---------- */
 .app-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 4px 10px;
+  padding: 22px 4px 16px;
 }
 .brand {
   display: flex; align-items: center; gap: 10px;
@@ -158,11 +158,11 @@ img { -webkit-user-drag: none; user-select: none; }
 
 /* ---------- home ---------- */
 /* Home hero: Ume says hi. */
-.home-intro { display: flex; align-items: center; justify-content: center; gap: 22px; margin: 4px auto 26px; max-width: 760px; text-align: left; }
-.home-ume { width: 150px; flex: none; animation: umefloat 5s ease-in-out infinite; }
+.home-intro { display: flex; align-items: center; justify-content: center; gap: 36px; margin: 28px auto 48px; max-width: 800px; text-align: left; }
+.home-ume { width: 190px; flex: none; animation: umefloat 5s ease-in-out infinite; }
 .home-ume img { width: 100%; height: auto; }
 @keyframes umefloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-.home-copy { display: flex; flex-direction: column; gap: 6px; }
+.home-copy { display: flex; flex-direction: column; gap: 10px; }
 .home-bubble {
   position: relative; align-self: flex-start; background: var(--surface); border: 2px solid var(--border); border-radius: 18px;
   padding: 9px 15px; font-weight: 800; box-shadow: 0 4px 0 var(--border); font-size: .98rem; color: var(--navy); max-width: 100%;
@@ -179,37 +179,37 @@ img { -webkit-user-drag: none; user-select: none; }
   .home-bubble::after, .home-bubble::before { display: none; }
 }
 
-.home-grid { display: flex; flex-direction: column; gap: 22px; max-width: 1080px; margin: 0 auto; }
+.home-grid { display: flex; flex-direction: column; gap: 32px; max-width: 1120px; margin: 0 auto 40px; }
 
 /* One logical group: header + a row of independently-clickable preview tiles. */
 .game-group {
   position: relative; overflow: hidden;
   background: var(--surface); border: 2px solid var(--border); border-radius: 26px;
-  padding: 18px 20px 20px; box-shadow: 0 6px 0 var(--border);
+  padding: 28px 30px 30px; box-shadow: 0 6px 0 var(--border);
 }
 /* An Ume pose tucked top-right of every group (Plum Mascot 2D set) */
-.group-art { position: absolute; right: 14px; top: 8px; height: 84px; width: auto; pointer-events: none; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+.group-art { position: absolute; right: 22px; top: 14px; height: 92px; width: auto; pointer-events: none; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
 .game-group:hover .group-art { transform: translateY(-3px) rotate(-3deg) scale(1.04); }
 .group-head { padding-right: 120px; }
-.group-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.group-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 24px; }
 .group-icon { display: flex; flex: none; margin-top: 2px; }
 .group-icon .icon { width: 26px; height: 26px; color: var(--accent); stroke-width: 2.1; }
 .group-text { display: flex; flex-direction: column; }
 .group-title { font-weight: 900; font-size: 1.25rem; color: var(--navy); }
 .group-sub { color: var(--muted); font-size: .92rem; margin-top: 1px; }
 
-.tile-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.tile-row { display: flex; flex-wrap: wrap; gap: 16px; }
 .preview-tile {
-  flex: 1 1 108px; max-width: 152px; display: flex; flex-direction: column;
-  align-items: center; gap: 8px; text-align: center;
+  flex: 1 1 116px; max-width: 160px; display: flex; flex-direction: column;
+  align-items: center; gap: 12px; text-align: center;
   background: var(--surface); border: 2px solid var(--border); border-radius: 18px;
-  padding: 14px 8px 12px; font: inherit; color: var(--text); box-shadow: var(--press);
+  padding: 20px 10px 16px; font: inherit; color: var(--text); box-shadow: var(--press);
   transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
 }
 .preview-tile:hover { transform: translateY(-3px); box-shadow: 0 7px 0 var(--accent-soft); border-color: var(--accent-hover); background: var(--surface-2); }
 .preview-tile:active { transform: translateY(4px); box-shadow: none; }
 .preview-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.tile-illus { width: 62px; height: 62px; display: grid; place-items: center; }
+.tile-illus { width: 68px; height: 68px; display: grid; place-items: center; }
 .tile-illus img { max-width: 100%; max-height: 100%; object-fit: contain; }
 .tile-label { font-weight: 800; font-size: .88rem; }
 
@@ -220,7 +220,7 @@ img { -webkit-user-drag: none; user-select: none; }
 }
 
 @media (max-width: 760px) {
-  .game-group { padding: 16px 14px 18px; }
+  .game-group { padding: 20px 16px 22px; }
   .group-art { height: 64px; right: 10px; top: 8px; }
   .group-head { padding-right: 90px; }
   .preview-tile { flex-basis: 30%; max-width: none; }

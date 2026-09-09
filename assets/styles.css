@@ -100,11 +100,11 @@ img { -webkit-user-drag: none; user-select: none; }
   background: none; border: none; padding: 6px 8px; border-radius: 14px;
   font-weight: 900; font-size: 1.3rem; color: var(--navy); letter-spacing: -.01em;
 }
-.brand-ume { width: 34px; height: 34px; object-fit: contain; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
-.brand:hover .brand-ume { transform: rotate(-10deg) scale(1.12); }
-.by-ume { font-size: .8rem; font-weight: 900; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; text-decoration: none; cursor: pointer; transition: transform .1s, box-shadow .1s;
+.brand-logo { height: 52px; width: auto; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+.brand:hover .brand-logo { transform: rotate(-3deg) scale(1.05); }
+.by-ume { font-size: .8rem; font-weight: 900; color: var(--muted); display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px !important; text-decoration: none; cursor: pointer; transition: transform .1s, box-shadow .1s;
   background: var(--surface); border: 2px solid var(--border); border-radius: 999px; padding: 5px 12px 5px 6px; box-shadow: var(--press); }
-.by-ume img { width: 22px; height: 22px; object-fit: contain; }
+.by-ume img.by-logo { height: 20px; width: auto; }
 .by-ume:hover { border-color: var(--accent-hover); transform: translateY(-1px); }
 .by-ume:active { transform: translateY(3px); box-shadow: none; }
 /* umelabs wordmark: lowercase, one word, two colours */
@@ -166,8 +166,8 @@ img { -webkit-user-drag: none; user-select: none; }
 }
 .home-bubble::after { content: ""; position: absolute; left: 22px; bottom: -9px; border: 8px solid transparent; border-top-color: var(--surface); border-bottom: 0; }
 .home-bubble::before { content: ""; position: absolute; left: 20px; bottom: -13px; border: 10px solid transparent; border-top-color: var(--border); border-bottom: 0; }
-.home-hero h1 { font-size: clamp(2.6rem, 5.4vw, 4rem); font-weight: 900; letter-spacing: -.03em; color: var(--navy); line-height: 1; margin: 6px 0 0; }
-.home-hero h1 em { font-style: normal; color: var(--accent); }
+.home-hero h1.home-logo { margin: 4px 0 0; line-height: 0; }
+.home-logo picture, .home-logo img { display: block; width: min(440px, 100%); height: auto; }
 .home-hero .lede { color: var(--muted); margin: 0; font-size: 1.15rem; max-width: 36ch; }
 .home-quick { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
 .home-quick-hint { color: var(--muted); font-weight: 700; font-size: .9rem; }
@@ -237,6 +237,7 @@ img { -webkit-user-drag: none; user-select: none; }
   .hcard-big .hcard-art img { height: 190px; }
 }
 @media (max-width: 760px) {
+  .home-logo picture, .home-logo img { margin: 0 auto; width: min(360px, 90%); }
   .home-hero { grid-template-columns: 1fr; text-align: center; gap: 12px; margin-bottom: 30px; }
   .home-copy { align-items: center; }
   .home-hero .lede { max-width: none; }
@@ -575,7 +576,7 @@ body.full-map #roundModes .chip.active { background: var(--accent); border-color
 .footer-credits, .footer-privacy { font-size: .82rem; opacity: .85; }
 .app-footer a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .footer-ume { display: inline-flex; align-items: center; gap: 6px; font-weight: 900; color: var(--navy); text-decoration: none !important; }
-.footer-ume img { width: 22px; height: 22px; object-fit: contain; }
+.footer-ume img.footer-logo { height: 22px; width: auto; }
 .app-footer a:hover { color: var(--accent); }
 
 /* ---------- map shapes ---------- */
@@ -802,7 +803,7 @@ body.has-fullscreen-map { overflow: hidden; }
 }
 @media (max-width: 760px) {
   .filters { gap: 14px 20px; }
-  .brand-text { display: none; }
+  .brand-logo { height: 42px; }
 }
 @media (max-width: 640px) {
   /* Guess-the-flag: flag a touch higher + smaller so it clears the dock. */

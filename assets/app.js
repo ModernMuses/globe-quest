@@ -1,4 +1,4 @@
-/* Globe Quest — game controller + UI.
+/* Geo Quest (formerly Globe Quest) — game controller + UI.
  *
  * Everything the player sees and does lives here. The country content comes
  * from window.COUNTRIES (data/countries.js) and the map from GlobeMap (map.js).
@@ -1576,7 +1576,6 @@
 
   // Fill in all the static flat icons (single source of truth = icons.js).
   function paintStaticIcons() {
-    $('brandIcon').innerHTML = UME('2d-happy', 'brand-ume');
     $('atlasEmptyIcon').innerHTML = UME('2d-playful');
     $('statScore').insertAdjacentHTML('afterbegin', ICON('star'));
     $('statStreak').insertAdjacentHTML('afterbegin', ICON('flame'));

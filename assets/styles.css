@@ -102,9 +102,11 @@ img { -webkit-user-drag: none; user-select: none; }
 }
 .brand-ume { width: 34px; height: 34px; object-fit: contain; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
 .brand:hover .brand-ume { transform: rotate(-10deg) scale(1.12); }
-.by-ume { font-size: .8rem; font-weight: 900; color: var(--muted); display: inline-flex; align-items: center; gap: 6px;
+.by-ume { font-size: .8rem; font-weight: 900; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; text-decoration: none; cursor: pointer; transition: transform .1s, box-shadow .1s;
   background: var(--surface); border: 2px solid var(--border); border-radius: 999px; padding: 5px 12px 5px 6px; box-shadow: var(--press); }
 .by-ume img { width: 22px; height: 22px; object-fit: contain; }
+.by-ume:hover { border-color: var(--accent-hover); transform: translateY(-1px); }
+.by-ume:active { transform: translateY(3px); box-shadow: none; }
 /* umelabs wordmark: lowercase, one word, two colours */
 .wordmark { font-weight: 900; letter-spacing: -.03em; color: var(--navy); }
 .wordmark b { font-weight: inherit; color: var(--accent); }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Globe Quest — Learn the Countries of the World</title>
+  <title>Globe Quest — Learn the Countries of the World · umelabs</title>
   <meta name="description" content="A clean, friendly game for learning the world's countries: maps, flags, capitals and fun facts. For kids and grown-ups." />
 
   <!-- Friendly, readable type -->
@@ -14,7 +14,7 @@
   <!-- dev: bust the CSS cache on localhost so style edits show on a normal reload (⌘R) -->
   <script>(function(){var v=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'?t='+Date.now():'';document.write('<link rel="stylesheet" href="assets/styles.css'+v+'">');})();</script>
   <noscript><link rel="stylesheet" href="assets/styles.css" /></noscript>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>" />
+  <link rel="icon" type="image/png" href="assets/ume/2d-happy.png" />
 </head>
 <body>
   <div id="app">
@@ -25,6 +25,7 @@
         <span class="brand-text">Globe Quest</span>
       </button>
       <div class="header-right">
+        <span class="by-ume" title="umelabs"><img src="assets/ume/2d-happy.png" alt="">by <span class="wordmark"><b>ume</b>labs</span></span>
         <div class="scoreboard" id="scoreboard" hidden>
           <span class="stat" title="Question"><span id="progressText">0 / 0</span></span>
           <span class="stat stat-score" id="statScore" title="Score"><span id="scoreText">0</span></span>
@@ -37,8 +38,12 @@
       <!-- ============ HOME SCREEN ============ -->
       <section class="screen home-screen" id="homeScreen">
         <div class="home-intro">
-          <h1>Globe Quest</h1>
-          <p class="lede">Explore the world, or pick a game. No sign-up — just start.</p>
+          <div class="home-ume"><img src="assets/ume/2d-happy.png" alt="Ume the plum, waving" width="420" height="428"></div>
+          <div class="home-copy">
+            <div class="home-bubble" id="homeBubble">Hi! Where shall we go today?</div>
+            <h1>Globe <em>Quest</em></h1>
+            <p class="lede">Explore the world, or pick a game. No sign-up — just start.</p>
+          </div>
         </div>
         <div class="home-grid" id="modeGrid"></div>
       </section>
@@ -177,6 +182,8 @@
     </div>
 
     <footer class="app-footer">
+      <span class="footer-ume"><img src="assets/ume/2d-happy.png" alt="">an <span class="wordmark"><b>ume</b>labs</span> game</span>
+      <span class="footer-dot">•</span>
       <span>Made for curious humans of all ages.</span>
       <span class="footer-dot">•</span>
       <span id="countCount">—</span>

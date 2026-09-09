@@ -92,17 +92,18 @@
   const RIVERLAKE_TYPES = ['river', 'lake'];
 
   // The four games on the home screen. Each shows category chips (except Mix) + a hover tip.
+  // art = Ume holding a geo object (assets/ume/obj-*.png, from the Baby Cards illustration set).
   const GAMES = [
-    { id: 'find', icon: 'crosshair', title: 'Find on Map', sub: 'We name it — you find it.',
+    { id: 'find', icon: 'crosshair', art: 'map-and-pins', title: 'Find on Map', sub: 'We name it — you find it.',
       tip: 'We name a place — a country, continent, ocean, river, lake or capital, or show a flag — and you find and tap it on the map.',
       cats: ['countries', 'continents', 'regions', 'oceans', 'rivers', 'capitals', 'flags'] },
-    { id: 'name', icon: 'pin', title: 'Name It', sub: 'We show it — you name it.',
+    { id: 'name', icon: 'pin', art: 'quiz-tablet', title: 'Name It', sub: 'We show it — you name it.',
       tip: 'We mark a place on the map (or show a flag) and you pick its name from four choices.',
       cats: ['countries', 'continents', 'regions', 'oceans', 'rivers', 'capitals', 'flags'] },
-    { id: 'match', icon: 'grid', title: 'Match', sub: 'Find the right match.',
+    { id: 'match', icon: 'grid', art: 'flag-cards', title: 'Match', sub: 'Find the right match.',
       tip: 'Match a country to its flag or capital, or a country to the continent it belongs to — pick the right pair.',
       cats: ['flags', 'capitals', 'continents'] },
-    { id: 'mix', icon: 'shuffle', title: 'Mix', sub: 'A little of everything.',
+    { id: 'mix', icon: 'shuffle', art: 'travel-suitcase', title: 'Mix', sub: 'A little of everything.',
       tip: 'Finding, naming, flags and capitals — every kind of question, all shuffled together.',
       cats: [] },
   ];
@@ -444,7 +445,9 @@
   }
 
   // One logical group: header (icon + title + one-line sub) + a row of preview tiles.
-  function gameGroup(icon, title, sub, tiles, extraCls) {
+  // Ume's little illustrations: a "mascot moment" on the home screen, the answer reveal and the results.
+  const UME = (name, cls) => `<img class="${cls || ''}" src="assets/ume/${name}.png" alt="" draggable="false">`;
+  function gameGroup(icon, title, sub, tiles, extraCls, art) {
     const group = el('section', 'game-group' + (extraCls ? ' ' + extraCls : ''));
     const head = el('div', 'group-head');
     head.innerHTML =
@@ -452,6 +455,7 @@
       `<span class="group-text"><span class="group-title">${title}</span><span class="group-sub">${sub}</span></span>`;
     const row = el('div', 'tile-row');
     tiles.forEach((t) => row.appendChild(t));
+    if (art) group.insertAdjacentHTML('afterbegin', UME('obj-' + art, 'group-art'));
     group.append(head, row);
     return group;
   }
@@ -467,13 +471,16 @@
       const tiles = g.cats.length
         ? g.cats.map((cat) => previewTile(cat, CAT_LABEL[cat], () => startCategory(g.id, cat, { openSettings: true })))
         : [previewTile('mix', 'Surprise me', () => startCategory(g.id, 'countries', { openSettings: true }))];
-      grid.appendChild(gameGroup(g.icon, g.title, g.sub, tiles));
+      grid.appendChild(gameGroup(g.icon, g.title, g.sub, tiles, '', g.art));
     });
 
     // Explore last — the free-roam, no-score option, same tile pattern as the games
     // (and reuses their illustrations) but tinted to stand apart.
     const exTiles = EXPLORE_CATS.map((cat) => previewTile(cat, CAT_LABEL[cat], () => openExplore(cat)));
-    grid.appendChild(gameGroup('compass', 'Explore', 'Roam freely — no score.', exTiles, 'group-explore'));
+    grid.appendChild(gameGroup('compass', 'Explore', 'Roam freely — no score.', exTiles, 'group-explore', 'globe-and-passport'));
+    // Ume's greeting rotates each visit home
+    const HELLO = ['Hi! Where shall we go today?', 'Ready? Pick a game!', 'I bet you can find Tuvalu.', 'One more round?', 'Flags or capitals today?'];
+    const hb = $('homeBubble'); if (hb) hb.textContent = HELLO[Math.floor(Math.random() * HELLO.length)];
 
     $('countCount').textContent = `${ALL.length} countries · ${CONTINENTS.length} continents · ${WATERS.length} waters`;
   }
@@ -1042,15 +1049,16 @@
     const fb = $('feedback');
     fb.className = 'feedback ' + (correct ? 'ok' : 'no');
     const cl = correctLabelText(q);
-    fb.innerHTML = correct
-      ? `<span class="fb-emoji">${ICON('check-circle')}</span> ${praise()}`
+    // Ume reacts: celebrating for a hit, determined ("next one!") for a miss.
+    fb.innerHTML = UME(correct ? '2d-celebrating' : '2d-determined', 'fb-ume') + '<span class="fb-text">' + (correct
+      ? praise()
       : wrongLabel
-        ? `<span class="fb-emoji">${ICON('bulb')}</span> You selected <b>${wrongLabel}</b> — it's not <b>${cl}</b>.`
-        : `<span class="fb-emoji">${ICON('bulb')}</span> It's <b>${cl}</b>.`;
+        ? `You selected <b>${wrongLabel}</b> — it's not <b>${cl}</b>.`
+        : `It's <b>${cl}</b>.`) + '</span>';
     // Near-miss readout: a wrong-but-close tap still earns a high proximity — it "almost" counts.
     if (prox && !correct) {
       const phrase = prox.pct >= 85 ? 'so close!' : prox.pct >= 60 ? 'close!' : prox.pct >= 35 ? 'getting warmer' : 'quite far';
-      fb.innerHTML += `<span class="fb-prox"><span class="fb-prox-pct">${prox.pct}%</span> proximity · ~${prox.km.toLocaleString()} km away — ${phrase}</span>`;
+      fb.querySelector('.fb-text').innerHTML += `<span class="fb-prox"><span class="fb-prox-pct">${prox.pct}%</span> proximity · ~${prox.km.toLocaleString()} km away — ${phrase}</span>`;
     }
     showFact(q);
     // Reveal in the Explorer-style card on the right (one info panel, like Explore). The map
@@ -1142,7 +1150,7 @@
     const pct = total ? Math.round((S.score / total) * 100) : 0;
     GQA.roundComplete(S.mode, S.score);
     show('resultsScreen');
-    $('resultsEmoji').innerHTML = ICON(pct >= 90 ? 'trophy' : pct >= 70 ? 'star' : pct >= 50 ? 'thumbs-up' : 'sprout', 'icon-xl');
+    $('resultsEmoji').innerHTML = UME(pct >= 90 ? '3d-celebrating' : pct >= 70 ? '3d-happy' : pct >= 50 ? '3d-playful' : '3d-determined');
     $('resultsTitle').textContent = pct >= 90 ? 'Geography star!' : pct >= 70 ? 'Great going!' : pct >= 50 ? 'Nice progress!' : 'Every round teaches you more';
     $('resultsScore').innerHTML = `<b>${S.score}</b> / ${total} &nbsp;·&nbsp; ${pct}%`;
     $('resultsBars').innerHTML = `<div class="rbar"><div class="rbar-fill" style="width:${pct}%"></div></div>`;
@@ -1562,8 +1570,8 @@
 
   // Fill in all the static flat icons (single source of truth = icons.js).
   function paintStaticIcons() {
-    $('brandIcon').innerHTML = ICON('globe');
-    $('atlasEmptyIcon').innerHTML = ICON('compass', 'icon-xl');
+    $('brandIcon').innerHTML = UME('2d-happy', 'brand-ume');
+    $('atlasEmptyIcon').innerHTML = UME('2d-playful');
     $('statScore').insertAdjacentHTML('afterbegin', ICON('star'));
     $('statStreak').insertAdjacentHTML('afterbegin', ICON('flame'));
     $('quitBtn').innerHTML = ICON('chevron-left') + 'Quit';

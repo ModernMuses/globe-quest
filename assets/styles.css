@@ -3,43 +3,50 @@
    easy to retheme. Type is Nunito, sized generously for kids and grown-ups. */
 
 :root {
-  --bg: #eef2fb;
-  --bg-grad: radial-gradient(1200px 600px at 50% -10%, #ffffff 0%, #eef2fb 55%, #e7ecf7 100%);
+  /* Ume Labs house palette (see ../Ume Labs/index.html) — plum purple accent, cream-lavender paper */
+  --bg: #FBF8FF;
+  --bg-grad: radial-gradient(1200px 600px at 50% -10%, #ffffff 0%, #FBF8FF 55%, #F3ECFF 100%);
   --surface: #ffffff;
-  --surface-2: #f6f8fc;
-  --text: #1d2533;
-  --muted: #6a7686;
-  --border: #e6eaf2;
-  --accent: #4361ee;
-  --accent-soft: #e7ecff;
-  --accent-hover: #aeb9f3; /* lighter blue: hover = "pointing at", solid accent = "selected" */
-  --accent-2: #21c3c9;
-  /* rivers stay blue; lakes get their own teal so the two read as different kinds of water */
-  --river: var(--accent);
-  --river-hover: var(--accent-hover);
+  --surface-2: #F6F1FD;
+  --text: #2B1D4A;
+  --muted: #6A5C8A;
+  --border: #E9E4F2;
+  --accent: #9647F0;
+  --accent-soft: #EEE4FF;
+  --accent-hover: #C28CF8; /* lighter plum: hover = "pointing at", solid accent = "selected" */
+  --accent-2: #4FC3F7;
+  --navy: #381E69;
+  --yellow: #FDBC1D; --orange: #E8871A; --green: #6CBC42; --green-dark: #3F9A3D; --pink: #FB82B8;
+  /* water keeps its own blues so the plum selection colour stays for LAND */
+  --river: #2A9FDA;
+  --river-hover: #A9E4FB;
+  --water-hover: #8ED8FA;
+  --water-sel: #2A9FDA;
   --lake: #12a6ab;
   --lake-hover: #7bd3d6;
   --water-fill: #93bce9; /* seas/oceans shown as darker-blue SHAPES; the gap between touching ones is the lighter --ocean background */
-  --ok: #18a366;
-  --ok-soft: #e3f8ee;
-  --no: #ef5350;
-  --no-soft: #fdebec;
+  --ok: #3F9A3D;
+  --ok-soft: #EAF7DF;
+  --no: #F4526D;
+  --no-soft: #FFE7EC;
   --ocean: #d9e9fb;
   --land: #e7e3da;
   --land-stroke: #ffffff;
   --land-hover: #c5dcff;
-  --target: #ffcf5c;
-  --target-stroke: #f08c00;
-  --shadow: 0 10px 30px rgba(31, 45, 80, 0.10);
-  --shadow-sm: 0 3px 10px rgba(31, 45, 80, 0.08);
-  --radius: 18px;
-  --radius-sm: 12px;
+  --target: #FDBC1D;
+  --target-stroke: #E8871A;
+  --shadow: 0 12px 30px rgba(56, 30, 105, 0.12);
+  --shadow-sm: 0 3px 10px rgba(56, 30, 105, 0.08);
+  --press: 0 4px 0 var(--border);            /* Duolingo-style "chunky" bottom edge */
+  --press-accent: 0 4px 0 #5A1FA8;
+  --radius: 22px;
+  --radius-sm: 16px;
   /* political-map country palette */
   --c0: #ec9d9d; --c1: #f0c084; --c2: #ddd382; --c3: #a6d692;
-  --c4: #8bd0c9; --c5: #97b6ec; --c6: #c2a6e6; --c7: #edaad2;
+  --c4: #8bd0c9; --c5: #97b6ec; --c6: #d8c7a3; --c7: #edaad2;
   /* vivid map answer states (must stand out against the palette) */
   --ok-vivid: #12b866; --no-vivid: #f3402f; --edge: rgba(17, 24, 39, 0.62);
-  --accent-stroke: #2a3aa3; /* OPAQUE highlight outline → same colour all the way around */
+  --accent-stroke: #5A1FA8; /* OPAQUE highlight outline → same colour all the way around */
   --sheet-bg: rgba(255, 255, 255, 0.75); /* see-through info sheet */
   color-scheme: light;
 }
@@ -90,19 +97,28 @@ img { -webkit-user-drag: none; user-select: none; }
 }
 .brand {
   display: flex; align-items: center; gap: 10px;
-  background: none; border: none; padding: 6px 8px; border-radius: 12px;
-  font-weight: 900; font-size: 1.3rem; color: var(--text);
+  background: none; border: none; padding: 6px 8px; border-radius: 14px;
+  font-weight: 900; font-size: 1.3rem; color: var(--navy); letter-spacing: -.01em;
 }
+.brand-ume { width: 34px; height: 34px; object-fit: contain; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+.brand:hover .brand-ume { transform: rotate(-10deg) scale(1.12); }
+.by-ume { font-size: .8rem; font-weight: 900; color: var(--muted); display: inline-flex; align-items: center; gap: 6px;
+  background: var(--surface); border: 2px solid var(--border); border-radius: 999px; padding: 5px 12px 5px 6px; box-shadow: var(--press); }
+.by-ume img { width: 22px; height: 22px; object-fit: contain; }
+/* umelabs wordmark: lowercase, one word, two colours */
+.wordmark { font-weight: 900; letter-spacing: -.03em; color: var(--navy); }
+.wordmark b { font-weight: inherit; color: var(--accent); }
+.by-ume .wordmark { font-size: .95rem; }
 .brand:hover { background: var(--surface-2); }
 .brand-emoji { font-size: 1.5rem; }
 .header-right { display: flex; align-items: center; gap: 12px; }
 .scoreboard { display: flex; gap: 8px; }
 .stat {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 999px; padding: 5px 12px; font-weight: 800; font-size: .95rem;
-  box-shadow: var(--shadow-sm); white-space: nowrap;
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: 999px; padding: 5px 12px; font-weight: 900; font-size: .95rem;
+  box-shadow: var(--press); white-space: nowrap;
 }
-.stat-score { color: #d9920a; }
+.stat-score { color: var(--orange); }
 .stat-streak { color: var(--no); }
 .icon-btn {
   background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
@@ -130,41 +146,66 @@ img { -webkit-user-drag: none; user-select: none; }
 .filter-label { font-weight: 800; font-size: .85rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .chip {
-  border: 1.5px solid var(--border); background: var(--surface);
-  border-radius: 999px; padding: 8px 15px; font-weight: 700; font-size: .95rem; color: var(--text);
-  transition: all .15s ease;
+  border: 2px solid var(--border); background: var(--surface);
+  border-radius: 999px; padding: 8px 15px; font-weight: 800; font-size: .95rem; color: var(--text);
+  box-shadow: 0 3px 0 var(--border); transition: all .12s ease;
 }
-.chip:hover { border-color: var(--accent); }
-.chip.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: var(--shadow-sm); }
+.chip:hover { border-color: var(--accent-hover); box-shadow: 0 3px 0 var(--accent-soft); }
+.chip:active { transform: translateY(3px); box-shadow: none; }
+.chip.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 3px 0 #5A1FA8; }
 
 /* ---------- home ---------- */
-.home-intro { text-align: center; margin: 6px 0 22px; }
-.home-intro h1 { font-size: 1.9rem; font-weight: 900; letter-spacing: -.02em; }
-.home-intro .lede { color: var(--muted); margin-top: 4px; }
+/* Home hero: Ume says hi. */
+.home-intro { display: flex; align-items: center; justify-content: center; gap: 22px; margin: 4px auto 26px; max-width: 760px; text-align: left; }
+.home-ume { width: 150px; flex: none; animation: umefloat 5s ease-in-out infinite; }
+.home-ume img { width: 100%; height: auto; }
+@keyframes umefloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+.home-copy { display: flex; flex-direction: column; gap: 6px; }
+.home-bubble {
+  position: relative; align-self: flex-start; background: var(--surface); border: 2px solid var(--border); border-radius: 18px;
+  padding: 9px 15px; font-weight: 800; box-shadow: 0 4px 0 var(--border); font-size: .98rem; color: var(--navy); max-width: 100%;
+}
+.home-bubble::after { content: ""; position: absolute; left: -12px; top: 16px; border: 8px solid transparent; border-right-color: var(--surface); }
+.home-bubble::before { content: ""; position: absolute; left: -15px; top: 14px; border: 10px solid transparent; border-right-color: var(--border); }
+.home-intro h1 { font-size: clamp(2rem, 4.6vw, 2.9rem); font-weight: 900; letter-spacing: -.025em; color: var(--navy); line-height: 1.05; }
+.home-intro h1 em { font-style: normal; color: var(--accent); }
+.home-intro .lede { color: var(--muted); margin-top: 0; font-size: 1.05rem; }
+@media (max-width: 560px) {
+  .home-intro { flex-direction: column; text-align: center; gap: 10px; }
+  .home-ume { width: 120px; }
+  .home-bubble { align-self: center; }
+  .home-bubble::after, .home-bubble::before { display: none; }
+}
 
 .home-grid { display: flex; flex-direction: column; gap: 22px; max-width: 1080px; margin: 0 auto; }
 
 /* One logical group: header + a row of independently-clickable preview tiles. */
 .game-group {
-  background: var(--surface); border: 2px solid var(--border); border-radius: 20px;
-  padding: 18px 20px 20px; box-shadow: var(--shadow-sm);
+  position: relative; overflow: hidden;
+  background: var(--surface); border: 2px solid var(--border); border-radius: 26px;
+  padding: 18px 20px 20px; box-shadow: 0 6px 0 var(--border);
 }
+/* Ume + a geo object, tucked top-right of every group (from the Baby Cards/Backgrounds/Objects set) */
+.group-art { position: absolute; right: 10px; top: 6px; height: 92px; width: auto; pointer-events: none; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
+.game-group:hover .group-art { transform: translateY(-3px) rotate(-3deg) scale(1.04); }
+.group-head { padding-right: 120px; }
 .group-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
 .group-icon { display: flex; flex: none; margin-top: 2px; }
-.group-icon .icon { width: 26px; height: 26px; color: var(--accent); stroke-width: 1.9; }
+.group-icon .icon { width: 26px; height: 26px; color: var(--accent); stroke-width: 2.1; }
 .group-text { display: flex; flex-direction: column; }
-.group-title { font-weight: 900; font-size: 1.15rem; }
+.group-title { font-weight: 900; font-size: 1.25rem; color: var(--navy); }
 .group-sub { color: var(--muted); font-size: .92rem; margin-top: 1px; }
 
 .tile-row { display: flex; flex-wrap: wrap; gap: 12px; }
 .preview-tile {
   flex: 1 1 108px; max-width: 152px; display: flex; flex-direction: column;
   align-items: center; gap: 8px; text-align: center;
-  background: var(--surface-2); border: 1.5px solid var(--border); border-radius: 16px;
-  padding: 14px 8px 12px; font: inherit; color: var(--text);
-  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+  background: var(--surface); border: 2px solid var(--border); border-radius: 18px;
+  padding: 14px 8px 12px; font: inherit; color: var(--text); box-shadow: var(--press);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
 }
-.preview-tile:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--accent); }
+.preview-tile:hover { transform: translateY(-3px); box-shadow: 0 7px 0 var(--accent-soft); border-color: var(--accent-hover); background: var(--surface-2); }
+.preview-tile:active { transform: translateY(4px); box-shadow: none; }
 .preview-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .tile-illus { width: 56px; height: 56px; }
 .tile-illus .illus { width: 100%; height: 100%; }
@@ -173,11 +214,13 @@ img { -webkit-user-drag: none; user-select: none; }
 /* Explore — last group, tinted to read as the free-roam, no-score option. */
 .group-explore {
   background: linear-gradient(150deg, var(--accent-soft), var(--surface) 75%);
-  border-color: var(--accent);
+  border-color: var(--accent-hover); box-shadow: 0 6px 0 var(--accent-soft);
 }
 
 @media (max-width: 760px) {
   .game-group { padding: 16px 14px 18px; }
+  .group-art { height: 70px; right: 8px; top: 8px; }
+  .group-head { padding-right: 90px; }
   .preview-tile { flex-basis: 30%; max-width: none; }
 }
 @media (max-width: 480px) {
@@ -194,11 +237,13 @@ img { -webkit-user-drag: none; user-select: none; }
 .round-top { display: flex; align-items: center; gap: 14px; margin: 8px 0 6px; }
 .ghost-btn {
   display: inline-flex; align-items: center; gap: 4px;
-  background: var(--surface); border: 1px solid var(--border); color: var(--muted);
-  border-radius: 999px; padding: 9px 16px; font-weight: 800; box-shadow: var(--shadow-sm);
+  background: var(--surface); border: 2px solid var(--border); color: var(--muted);
+  border-radius: 999px; padding: 9px 16px; font-weight: 900; box-shadow: 0 3px 0 var(--border);
+  transition: transform .1s ease, box-shadow .1s ease;
 }
-.ghost-btn:hover { color: var(--text); border-color: var(--accent); }
-.progress-bar { flex: 1; height: 10px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+.ghost-btn:hover { color: var(--text); border-color: var(--accent-hover); }
+.ghost-btn:active { transform: translateY(3px); box-shadow: none; }
+.progress-bar { flex: 1; height: 14px; background: var(--surface-2); border: 2px solid var(--border); border-radius: 999px; overflow: hidden; }
 .progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .4s ease; }
 
 .prompt { text-align: center; font-size: clamp(1.25rem, 3.2vw, 1.7rem); font-weight: 800; margin: 14px 0 16px; }
@@ -310,8 +355,9 @@ body.full-map #dock.dragging .sheet-grip { cursor: grabbing; }
 /* icon buttons (zoom rail, settings) share one size + radius for a unified look */
 .map-tool {
   width: 40px; height: 40px; display: inline-grid; place-items: center; border-radius: 12px;
-  background: var(--surface); border: 1px solid var(--border); color: var(--text); box-shadow: var(--shadow-sm);
+  background: var(--surface); border: 2px solid var(--border); color: var(--text); box-shadow: 0 3px 0 var(--border);
 }
+.map-tool:active { transform: translateY(3px); box-shadow: none; }
 .map-tool:hover { border-color: var(--accent); color: var(--accent); }
 
 
@@ -323,9 +369,11 @@ body.full-map #dock.dragging .sheet-grip { cursor: grabbing; }
   display: flex; align-items: center; gap: 10px;
   background: var(--surface); border: 2px solid var(--border); color: var(--text);
   border-radius: var(--radius-sm); padding: 14px 16px; font-weight: 800; font-size: 1.05rem;
-  text-align: left; transition: transform .12s ease, border-color .12s ease, background .12s ease;
+  text-align: left; box-shadow: var(--press);
+  transition: transform .1s ease, border-color .12s ease, background .12s ease, box-shadow .1s ease;
 }
-.opt:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-2px); }
+.opt:hover:not(:disabled) { border-color: var(--accent-hover); box-shadow: 0 4px 0 var(--accent-soft); }
+.opt:active:not(:disabled) { transform: translateY(4px); box-shadow: none; }
 .opt:disabled { cursor: default; }
 .opt-key {
   display: inline-grid; place-items: center; width: 24px; height: 24px; flex: none;
@@ -333,12 +381,16 @@ body.full-map #dock.dragging .sheet-grip { cursor: grabbing; }
 }
 .opt-flag { justify-content: center; padding: 10px; }
 .opt-flag img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 8px; box-shadow: var(--shadow-sm); }
-.opt.correct { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
-.opt.wrong { border-color: var(--no); background: var(--no-soft); color: var(--no); }
+.opt.correct { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); box-shadow: 0 4px 0 var(--ok); }
+.opt.wrong { border-color: var(--no); background: var(--no-soft); color: var(--no); box-shadow: 0 4px 0 var(--no); }
 .opt.correct .opt-key, .opt.wrong .opt-key { background: rgba(255,255,255,.5); }
 
 /* ---------- feedback + fact card ---------- */
-.feedback { text-align: center; font-weight: 800; font-size: 1.1rem; min-height: 1.4em; margin: 6px 0; }
+.feedback { display: flex; align-items: center; gap: 10px; text-align: left; font-weight: 800; font-size: 1.1rem; min-height: 1.4em; margin: 6px 0; flex-wrap: wrap; }
+.feedback .fb-text { flex: 1 1 200px; }
+/* Ume reacts to every answer: a little celebrating / determined plum */
+.fb-ume { width: 58px; height: 58px; object-fit: contain; flex: none; animation: umepop .45s cubic-bezier(.34,1.56,.64,1); }
+@keyframes umepop { from { transform: scale(.5) rotate(-8deg); } to { transform: scale(1); } }
 .feedback.ok { color: var(--ok); }
 .feedback.no { color: var(--no); }
 .fb-emoji { margin-right: 4px; }
@@ -370,11 +422,14 @@ body.full-map #dock.dragging .sheet-grip { cursor: grabbing; }
 .round-actions { display: flex; justify-content: center; margin-top: 16px; }
 .primary-btn {
   display: inline-flex; align-items: center; gap: 4px;
-  background: var(--accent); color: #fff; border: none; border-radius: 999px;
-  padding: 14px 34px; font-weight: 900; font-size: 1.1rem; box-shadow: var(--shadow);
-  transition: transform .12s ease, filter .12s ease;
+  background: var(--accent); color: #fff; border: none; border-radius: 16px;
+  padding: 14px 34px; font-weight: 900; font-size: 1.1rem; letter-spacing: .02em; box-shadow: var(--press-accent);
+  transition: transform .1s ease, filter .12s ease, box-shadow .1s ease;
 }
-.primary-btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.primary-btn:hover { filter: brightness(1.06); }
+.primary-btn:active { transform: translateY(4px); box-shadow: none; }
+.primary-btn:focus:not(:focus-visible) { outline: none; }
+.primary-btn:focus-visible { outline: 3px solid var(--accent-hover); outline-offset: 3px; }
 
 /* ---------- explore ---------- */
 .explore-top { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin: 8px 0; }
@@ -421,8 +476,9 @@ body.full-map #roundModes .chip.active { background: var(--accent); border-color
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
   padding: 18px; box-shadow: var(--shadow-sm); min-height: 200px;
 }
-.atlas-empty { text-align: center; color: var(--muted); padding: 40px 0; }
-.atlas-empty-emoji { font-size: 2.6rem; display: block; margin-bottom: 8px; }
+.atlas-empty { text-align: center; color: var(--muted); padding: 24px 0; font-weight: 800; }
+.atlas-empty-emoji { display: block; margin: 0 auto 8px; width: 110px; }
+.atlas-empty-emoji img { width: 100%; height: auto; }
 .atlas-head { display: flex; align-items: center; gap: 14px; }
 .atlas-flag { width: 76px; aspect-ratio: 3/2; object-fit: cover; border-radius: 10px; box-shadow: var(--shadow-sm); }
 .atlas-name { font-size: 1.5rem; font-weight: 900; }
@@ -438,14 +494,15 @@ body.full-map #roundModes .chip.active { background: var(--accent); border-color
 /* ---------- results ---------- */
 .results-screen { display: grid; place-items: center; padding: 20px 0; }
 .results-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 24px;
-  padding: 30px; box-shadow: var(--shadow); text-align: center; max-width: 560px; width: 100%;
+  background: var(--surface); border: 2px solid var(--border); border-radius: 28px;
+  padding: 30px; box-shadow: 0 8px 0 var(--border); text-align: center; max-width: 560px; width: 100%;
 }
-.results-emoji { font-size: 3.4rem; }
-.results-card h2 { margin: 6px 0; font-size: 1.7rem; font-weight: 900; }
+.results-emoji { display: grid; place-items: center; }
+.results-emoji img { width: 170px; height: auto; animation: umepop .55s cubic-bezier(.34,1.56,.64,1); }
+.results-card h2 { margin: 6px 0; font-size: 1.9rem; font-weight: 900; color: var(--navy); }
 .results-score { font-size: 1.4rem; color: var(--muted); margin: 4px 0 14px; }
 .results-score b { color: var(--text); font-size: 1.7rem; }
-.rbar { height: 14px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+.rbar { height: 16px; background: var(--surface-2); border: 2px solid var(--border); border-radius: 999px; overflow: hidden; }
 .rbar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 999px; transition: width .8s ease; }
 /* proximity: the near-miss readout on the reveal + the round-average metric in results */
 .fb-prox { display: block; margin-top: 5px; font-size: .82rem; font-weight: 700; color: var(--muted); }
@@ -468,6 +525,8 @@ body.full-map #roundModes .chip.active { background: var(--accent); border-color
 .footer-dot { opacity: .5; }
 .footer-credits, .footer-privacy { font-size: .82rem; opacity: .85; }
 .app-footer a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.footer-ume { display: inline-flex; align-items: center; gap: 6px; font-weight: 900; color: var(--navy); text-decoration: none !important; }
+.footer-ume img { width: 22px; height: 22px; object-fit: contain; }
 .app-footer a:hover { color: var(--accent); }
 
 /* ---------- map shapes ---------- */
@@ -490,8 +549,8 @@ body.full-map #roundModes .chip.active { background: var(--accent); border-color
 /* ...but on HOVER, show them at a clear, consistent level like the smaller waters (they were barely
    visible at .16 while seas hovered at .7 — the big area means .5 reads about as strong as a sea at .7). */
 .water-area.water-vast.water-hover { fill-opacity: .5; }
-.water-area.water-hover { fill: var(--accent-hover); }
-.water-area.water-sel { fill: var(--accent); }
+.water-area.water-hover { fill: var(--water-hover); }
+.water-area.water-sel { fill: var(--water-sel); }
 .water-area.water-line { fill: none; stroke-width: 3; stroke-opacity: 1; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; } /* rivers: the line IS the highlight */
 .water-area.water-line.water-hover { stroke: var(--river-hover); }
 .water-area.water-line.water-sel { stroke: var(--river); }
@@ -543,8 +602,8 @@ body.full-map #roundModes .chip.active { background: var(--accent); border-color
 .place text { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 12px; fill: var(--text); }
 .place-continent text { font-weight: 900; font-size: 13px; }
 .place-continent .place-bg { stroke: var(--accent); }
-.place-ocean text, .place-sea text, .place-gulf text { fill: var(--accent); }
-.place-lake text, .place-river text { fill: var(--accent-2); }
+.place-ocean text, .place-sea text, .place-gulf text { fill: var(--water-sel); }
+.place-lake text, .place-river text { fill: var(--lake); }
 /* Name pill goes DARK blue on hover AND when selected (the territory is what differs:
    lighter on hover, darker on select). Border + leader stay white in every state. */
 .place:hover .place-bg, .place.is-hovered .place-bg,
@@ -577,8 +636,6 @@ body.full-map .marker.territory-marker { display: none; }
 .flag-missing { background: var(--surface-2); }
 
 .brand-emoji { display: inline-flex; }
-.brand-emoji .icon { width: 1.5rem; height: 1.5rem; color: var(--accent); }
-.atlas-empty-emoji .icon { width: 2.6rem; height: 2.6rem; color: var(--muted); }
 
 /* ---------- map name labels (Preview mode) ---------- */
 .clabel { pointer-events: auto; cursor: pointer; }
@@ -639,8 +696,8 @@ body.map-screen #atlasCard:not(.shown) { display: none; }
 .settings-btn {
   position: fixed; top: 14px; left: 16px; z-index: 80;
   width: 40px; height: 40px; display: inline-grid; place-items: center;
-  background: var(--surface); border: 1px solid var(--border); color: var(--text);
-  border-radius: 12px; box-shadow: var(--shadow-sm); cursor: pointer;
+  background: var(--surface); border: 2px solid var(--border); color: var(--text);
+  border-radius: 12px; box-shadow: 0 3px 0 var(--border); cursor: pointer;
 }
 .settings-btn:hover { border-color: var(--accent); color: var(--accent); }
 .settings-btn .icon { width: 20px; height: 20px; }

@@ -1056,15 +1056,15 @@
     fb.className = 'feedback ' + (correct ? 'ok' : 'no');
     const cl = correctLabelText(q);
     // Ume reacts: celebrating for a hit, determined ("next one!") for a miss.
-    fb.innerHTML = UME(correct ? '2d-celebrating' : '2d-determined', 'fb-ume') + '<span class="fb-text">' + (correct
+    fb.innerHTML = UME(correct ? '2d-celebrating' : '2d-determined', 'fb-ume') + '<div class="fb-text"><div class="fb-msg">' + (correct
       ? praise()
       : wrongLabel
-        ? `You selected <b>${wrongLabel}</b> — it's not <b>${cl}</b>.`
-        : `It's <b>${cl}</b>.`) + '</span>';
+        ? `You picked <b>${wrongLabel}</b>. It's <b>${cl}</b>.`
+        : `It's <b>${cl}</b>.`) + '</div></div>';
     // Near-miss readout: a wrong-but-close tap still earns a high proximity — it "almost" counts.
     if (prox && !correct) {
       const phrase = prox.pct >= 85 ? 'so close!' : prox.pct >= 60 ? 'close!' : prox.pct >= 35 ? 'getting warmer' : 'quite far';
-      fb.querySelector('.fb-text').innerHTML += `<span class="fb-prox"><span class="fb-prox-pct">${prox.pct}%</span> proximity · ~${prox.km.toLocaleString()} km away — ${phrase}</span>`;
+      fb.querySelector('.fb-text').innerHTML += `<div class="fb-prox"><span class="fb-pill"><b>${prox.pct}%</b> close</span><span class="fb-pill">~${prox.km.toLocaleString()} km away</span><span class="fb-phrase">${phrase}</span></div>`;
     }
     showFact(q);
     // Reveal in the Explorer-style card on the right (one info panel, like Explore). The map

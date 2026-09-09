@@ -359,6 +359,7 @@ body.full-map #roundCard[hidden] { display: none; }
 body.full-map #roundCard .factcard { background: transparent; box-shadow: none; border: none; padding: 4px 0 0; }
 body.full-map #roundCard .round-actions { margin-top: 16px; }
 body.full-map #roundCard .feedback { text-align: left; }
+body.full-map #roundCard .feedback:empty { display: none; }
 
 /* drag handle */
 .sheet-grip { display: none; }
@@ -412,13 +413,22 @@ body.full-map #dock.dragging .sheet-grip { cursor: grabbing; }
 .opt.correct .opt-key, .opt.wrong .opt-key { background: rgba(255,255,255,.5); }
 
 /* ---------- feedback + fact card ---------- */
-.feedback { display: flex; align-items: center; gap: 10px; text-align: left; font-weight: 800; font-size: 1.1rem; min-height: 1.4em; margin: 6px 0; flex-wrap: wrap; }
-.feedback .fb-text { flex: 1 1 200px; }
+/* The verdict: a soft callout under the fact card — Ume on the left, message + proximity pills on the right. */
+.feedback {
+  display: flex; align-items: center; gap: 12px; text-align: left; font-weight: 800; font-size: 1.02rem;
+  margin: 14px 0 0; padding: 12px 14px; border: 2px solid var(--border); border-radius: 18px;
+  background: var(--surface-2); color: var(--navy); line-height: 1.35;
+}
+.feedback .fb-text { flex: 1 1 160px; min-width: 0; }
+.fb-msg b { font-weight: 900; }
 /* Ume reacts to every answer: a little celebrating / determined plum */
 .fb-ume { width: 58px; height: 58px; object-fit: contain; flex: none; animation: umepop .45s cubic-bezier(.34,1.56,.64,1); }
 @keyframes umepop { from { transform: scale(.5) rotate(-8deg); } to { transform: scale(1); } }
-.feedback.ok { color: var(--ok); }
-.feedback.no { color: var(--no); }
+/* correct = green wash, wrong = rose wash; the names carry the colour, the sentence stays calm */
+.feedback.ok { background: var(--ok-soft); border-color: #BFE3B4; }
+.feedback.ok .fb-msg { color: var(--ok); }
+.feedback.no { background: var(--no-soft); border-color: #F7C3CE; }
+.feedback.no .fb-msg b { color: var(--no); }
 .fb-emoji { margin-right: 4px; }
 
 .factcard {
@@ -531,8 +541,10 @@ body.full-map #roundModes .chip.active { background: var(--accent); border-color
 .rbar { height: 16px; background: var(--surface-2); border: 2px solid var(--border); border-radius: 999px; overflow: hidden; }
 .rbar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 999px; transition: width .8s ease; }
 /* proximity: the near-miss readout on the reveal + the round-average metric in results */
-.fb-prox { display: block; margin-top: 5px; font-size: .82rem; font-weight: 700; color: var(--muted); }
-.fb-prox-pct { color: var(--accent); font-weight: 900; font-size: 1.05em; }
+.fb-prox { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; font-size: .8rem; font-weight: 700; color: var(--muted); }
+.fb-pill { background: var(--surface); border: 1.5px solid var(--border); border-radius: 999px; padding: 3px 9px; color: var(--navy); white-space: nowrap; }
+.fb-pill b { color: var(--accent); font-weight: 900; }
+.fb-phrase { font-weight: 800; }
 .results-prox { margin: 16px 0 2px; font-size: 1.05rem; color: var(--muted); }
 .results-prox b { color: var(--accent); font-size: 1.3rem; }
 .results-prox .rp-sub { display: block; font-size: .76rem; color: var(--muted); margin: 1px 0 8px; }

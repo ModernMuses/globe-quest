@@ -433,55 +433,61 @@
   const toggleSettings = () => ($('settingsPop').hidden ? openSettings() : closeSettings());
 
   // ---------- home ----------
-  // One preview tile: an illustration + a label, independently clickable — this IS
-  // the game+category combo (e.g. "Find on Map" group → "Continents" tile).
-  function previewTile(illus, label, onClick) {
-    const btn = el('button', 'preview-tile');
-    btn.type = 'button';
-    // category art from the Plum Mascot 'elements' set (assets/ume/el-*.png); 'mix' = Ume with flag cards
-    btn.innerHTML = `<span class="tile-illus">${UME('el-' + (illus === 'mix' ? 'ume-cards' : illus))}</span><span class="tile-label">${label}</span>`;
-    btn.onclick = onClick;
-    return btn;
-  }
-
-  // One logical group: header (icon + title + one-line sub) + a row of preview tiles.
-  // Ume's little illustrations: a "mascot moment" on the home screen, the answer reveal and the results.
+  // A mosaic, not a list: one big card per CATEGORY (its element icon + the games you can play on it),
+  // then a wide Explore card and a wide Mix card. Illustrations are the Plum Mascot element set.
   const UME = (name, cls) => `<img class="${cls || ''}" src="assets/ume/${name}.png" alt="" draggable="false">`;
-  function gameGroup(icon, title, sub, tiles, extraCls, art) {
-    const group = el('section', 'game-group' + (extraCls ? ' ' + extraCls : ''));
-    const head = el('div', 'group-head');
-    head.innerHTML =
-      `<span class="group-icon">${ICON(icon)}</span>` +
-      `<span class="group-text"><span class="group-title">${title}</span><span class="group-sub">${sub}</span></span>`;
-    const row = el('div', 'tile-row');
-    tiles.forEach((t) => row.appendChild(t));
-    if (art) group.insertAdjacentHTML('afterbegin', UME(art, 'group-art'));
-    group.append(head, row);
-    return group;
+  const HOME_CATS = [
+    { id: 'countries',  tint: 'green',  size: 'big', sub: 'All 194 of them, from Andorra to Zimbabwe.', stat: () => `${ALL.length} countries` },
+    { id: 'continents', tint: 'yellow', sub: 'Seven big pieces of the puzzle.', stat: () => `${CONTINENTS.length} continents` },
+    { id: 'flags',      tint: 'pink',   sub: 'Stripes, stars and a maple leaf.', stat: () => `${ALL.length} flags` },
+    { id: 'oceans',     tint: 'blue',   sub: 'Oceans, seas and gulfs.', stat: () => `${WATERS.filter((w) => OCEAN_TYPES.includes(w.type)).length} waters` },
+    { id: 'rivers',     tint: 'teal',   sub: 'The Nile, the Amazon and the great lakes.', stat: () => `${WATERS.filter((w) => RIVERLAKE_TYPES.includes(w.type)).length} rivers & lakes` },
+    { id: 'capitals',   tint: 'purple', sub: 'Which city runs the show?', stat: () => `${ALL.filter((c) => c.capital).length} capitals` },
+    { id: 'regions',    tint: 'peach',  sub: 'Balkans, Sahel, Caribbean and more.', stat: () => `${(typeof REGIONS_ALL !== 'undefined' ? REGIONS_ALL : []).length} regions` },
+  ];
+  const GAME_VERB = { find: 'Find on map', name: 'Name it', match: 'Match' };
+
+  function actionChip(label, onClick, cls) {
+    const b = el('button', 'act' + (cls ? ' ' + cls : ''), label);
+    b.type = 'button'; b.onclick = onClick; return b;
+  }
+  function catCard(c) {
+    const card = el('section', `hcard tint-${c.tint}` + (c.size ? ' hcard-' + c.size : ''));
+    card.innerHTML =
+      `<div class="hcard-art">${UME('el-' + c.id)}</div>` +
+      `<div class="hcard-body"><span class="hcard-stat">${c.stat()}</span>` +
+      `<h2 class="hcard-title">${CAT_LABEL[c.id]}</h2><p class="hcard-sub">${c.sub}</p>` +
+      `<div class="hcard-actions"></div></div>`;
+    const acts = card.querySelector('.hcard-actions');
+    GAMES.filter((g) => g.cats.includes(c.id)).forEach((g) =>
+      acts.appendChild(actionChip(GAME_VERB[g.id], () => startCategory(g.id, c.id, { openSettings: true }))));
+    if (EXPLORE_CATS.includes(c.id)) acts.appendChild(actionChip('Explore', () => openExplore(c.id), 'act-ghost'));
+    return card;
+  }
+  function wideCard(cls, art, title, sub, actions) {
+    const card = el('section', 'hcard hcard-wide ' + cls);
+    card.innerHTML =
+      `<div class="hcard-art">${UME(art)}</div>` +
+      `<div class="hcard-body"><h2 class="hcard-title">${title}</h2><p class="hcard-sub">${sub}</p><div class="hcard-actions"></div></div>`;
+    const acts = card.querySelector('.hcard-actions');
+    actions.forEach(([label, fn, c]) => acts.appendChild(actionChip(label, fn, c)));
+    return card;
   }
 
   function buildHome() {
     chipRow($('setRegions'), REGIONS, 'region');
     chipRow($('setLengths'), LENGTHS, 'length');
     const grid = $('modeGrid'); grid.innerHTML = '';
-
-    // The four games first, so what you can play is the first thing anyone sees —
-    // each category is its own preview tile that launches that exact game directly.
-    GAMES.forEach((g) => {
-      const tiles = g.cats.length
-        ? g.cats.map((cat) => previewTile(cat, CAT_LABEL[cat], () => startCategory(g.id, cat, { openSettings: true })))
-        : [previewTile('mix', 'Surprise me', () => startCategory(g.id, 'countries', { openSettings: true }))];
-      grid.appendChild(gameGroup(g.icon, g.title, g.sub, tiles, '', g.art));
-    });
-
-    // Explore last — the free-roam, no-score option, same tile pattern as the games
-    // (and reuses their illustrations) but tinted to stand apart.
-    const exTiles = EXPLORE_CATS.map((cat) => previewTile(cat, CAT_LABEL[cat], () => openExplore(cat)));
-    grid.appendChild(gameGroup('compass', 'Explore', 'Roam freely — no score.', exTiles, 'group-explore', 'el-ume-explorer'));
+    HOME_CATS.forEach((c) => grid.appendChild(catCard(c)));
+    grid.appendChild(wideCard('tint-purple hcard-explore', 'el-ume-explorer', 'Explore the atlas',
+      'Roam freely, tap anything, read the facts. No score, no clock.',
+      EXPLORE_CATS.map((cat) => [CAT_LABEL[cat], () => openExplore(cat), 'act-ghost'])));
+    grid.appendChild(wideCard('tint-sun hcard-mix', 'el-ume-cards', 'Mix it up',
+      'Finding, naming, flags and capitals — every kind of question, shuffled.',
+      [['Surprise me', () => startCategory('mix', 'countries', { openSettings: true }), 'act-big']]));
     // Ume's greeting rotates each visit home
-    const HELLO = ['Hi! Where shall we go today?', 'Ready? Pick a game!', 'I bet you can find Tuvalu.', 'One more round?', 'Flags or capitals today?'];
+    const HELLO = ['Hi! Where shall we go today?', 'Ready? Pick a place!', 'I bet you can find Tuvalu.', 'One more round?', 'Flags or capitals today?'];
     const hb = $('homeBubble'); if (hb) hb.textContent = HELLO[Math.floor(Math.random() * HELLO.length)];
-
     $('countCount').textContent = `${ALL.length} countries · ${CONTINENTS.length} continents · ${WATERS.length} waters`;
   }
 
@@ -1592,6 +1598,7 @@
     buildHome();
     wireSearch('exploreSearch', 'searchResults', (c) => { showAtlas(c); S.exploreMap.highlight(c.iso3, { focus: true }); });
     $('homeBtn').onclick = goHome;
+    $('quickPlay').onclick = () => startCategory('find', 'countries');
     $('quitBtn').onclick = goHome;
     $('exploreQuit').onclick = goHome;
     $('previewQuit').onclick = goHome;

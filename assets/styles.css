@@ -136,9 +136,6 @@ img { -webkit-user-drag: none; user-select: none; }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
 /* ---------- home ---------- */
-.home-hero { text-align: center; padding: 18px 0 6px; }
-.home-hero h1 { font-size: clamp(1.7rem, 4.5vw, 2.6rem); margin: .2em 0; font-weight: 900; letter-spacing: -0.02em; }
-.lede { color: var(--muted); max-width: 560px; margin: 0 auto; font-size: 1.05rem; }
 
 .filters {
   display: flex; flex-wrap: wrap; gap: 18px 36px; justify-content: center;
@@ -157,76 +154,102 @@ img { -webkit-user-drag: none; user-select: none; }
 .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 3px 0 #5A1FA8; }
 
 /* ---------- home ---------- */
-/* Home hero: Ume says hi. */
-.home-intro { display: flex; align-items: center; justify-content: center; gap: 36px; margin: 28px auto 48px; max-width: 800px; text-align: left; }
-.home-ume { width: 190px; flex: none; animation: umefloat 5s ease-in-out infinite; }
-.home-ume img { width: 100%; height: auto; }
-@keyframes umefloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-.home-copy { display: flex; flex-direction: column; gap: 10px; }
+/* ---------- home: hero + category mosaic ---------- */
+.home-hero {
+  display: grid; grid-template-columns: 1fr 1.15fr; gap: 32px; align-items: center;
+  margin: 10px auto 44px; max-width: 1120px;
+}
+.home-copy { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 .home-bubble {
-  position: relative; align-self: flex-start; background: var(--surface); border: 2px solid var(--border); border-radius: 18px;
-  padding: 9px 15px; font-weight: 800; box-shadow: 0 4px 0 var(--border); font-size: .98rem; color: var(--navy); max-width: 100%;
+  position: relative; background: var(--surface); border: 2px solid var(--border); border-radius: 18px;
+  padding: 9px 16px; font-weight: 800; box-shadow: 0 4px 0 var(--border); font-size: 1rem; color: var(--navy);
 }
-.home-bubble::after { content: ""; position: absolute; left: -12px; top: 16px; border: 8px solid transparent; border-right-color: var(--surface); }
-.home-bubble::before { content: ""; position: absolute; left: -15px; top: 14px; border: 10px solid transparent; border-right-color: var(--border); }
-.home-intro h1 { font-size: clamp(2rem, 4.6vw, 2.9rem); font-weight: 900; letter-spacing: -.025em; color: var(--navy); line-height: 1.05; }
-.home-intro h1 em { font-style: normal; color: var(--accent); }
-.home-intro .lede { color: var(--muted); margin-top: 0; font-size: 1.05rem; }
-@media (max-width: 560px) {
-  .home-intro { flex-direction: column; text-align: center; gap: 10px; }
-  .home-ume { width: 120px; }
-  .home-bubble { align-self: center; }
-  .home-bubble::after, .home-bubble::before { display: none; }
+.home-bubble::after { content: ""; position: absolute; left: 22px; bottom: -9px; border: 8px solid transparent; border-top-color: var(--surface); border-bottom: 0; }
+.home-bubble::before { content: ""; position: absolute; left: 20px; bottom: -13px; border: 10px solid transparent; border-top-color: var(--border); border-bottom: 0; }
+.home-hero h1 { font-size: clamp(2.6rem, 5.4vw, 4rem); font-weight: 900; letter-spacing: -.03em; color: var(--navy); line-height: 1; margin: 6px 0 0; }
+.home-hero h1 em { font-style: normal; color: var(--accent); }
+.home-hero .lede { color: var(--muted); margin: 0; font-size: 1.15rem; max-width: 36ch; }
+.home-quick { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
+.home-quick-hint { color: var(--muted); font-weight: 700; font-size: .9rem; }
+.home-scene picture, .home-scene img { display: block; width: 100%; height: auto; }
+.home-scene img { animation: umefloat 6s ease-in-out infinite; }
+@keyframes umefloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+.home-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(210px, auto); gap: 20px;
+  max-width: 1120px; margin: 0 auto 48px;
 }
-
-.home-grid { display: flex; flex-direction: column; gap: 32px; max-width: 1120px; margin: 0 auto 40px; }
-
-/* One logical group: header + a row of independently-clickable preview tiles. */
-.game-group {
-  position: relative; overflow: hidden;
-  background: var(--surface); border: 2px solid var(--border); border-radius: 26px;
-  padding: 28px 30px 30px; box-shadow: 0 6px 0 var(--border);
+.hcard {
+  position: relative; display: flex; flex-direction: column; overflow: hidden;
+  border: 2px solid var(--border); border-radius: 28px; padding: 22px 22px 20px;
+  background: var(--surface); box-shadow: 0 6px 0 var(--border);
+  transition: transform .18s ease, box-shadow .18s ease;
 }
-/* An Ume pose tucked top-right of every group (Plum Mascot 2D set) */
-.group-art { position: absolute; right: 22px; top: 14px; height: 92px; width: auto; pointer-events: none; transition: transform .25s cubic-bezier(.34,1.56,.64,1); }
-.game-group:hover .group-art { transform: translateY(-3px) rotate(-3deg) scale(1.04); }
-.group-head { padding-right: 120px; }
-.group-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 24px; }
-.group-icon { display: flex; flex: none; margin-top: 2px; }
-.group-icon .icon { width: 26px; height: 26px; color: var(--accent); stroke-width: 2.1; }
-.group-text { display: flex; flex-direction: column; }
-.group-title { font-weight: 900; font-size: 1.25rem; color: var(--navy); }
-.group-sub { color: var(--muted); font-size: .92rem; margin-top: 1px; }
-
-.tile-row { display: flex; flex-wrap: wrap; gap: 16px; }
-.preview-tile {
-  flex: 1 1 116px; max-width: 160px; display: flex; flex-direction: column;
-  align-items: center; gap: 12px; text-align: center;
-  background: var(--surface); border: 2px solid var(--border); border-radius: 18px;
-  padding: 20px 10px 16px; font: inherit; color: var(--text); box-shadow: var(--press);
-  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+.hcard:hover { transform: translateY(-4px); box-shadow: 0 10px 0 var(--border); }
+.hcard-art { display: flex; justify-content: flex-end; margin: -6px -4px 4px 0; }
+.hcard-art img { height: 118px; width: auto; transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+.hcard:hover .hcard-art img { transform: rotate(-4deg) scale(1.06); }
+.hcard-body { display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
+.hcard-stat { font-size: .78rem; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.hcard-title { margin: 0; font-size: 1.45rem; font-weight: 900; color: var(--navy); letter-spacing: -.02em; }
+.hcard-sub { margin: 0 0 10px; color: var(--muted); font-weight: 600; font-size: .95rem; }
+.hcard-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.act {
+  font: inherit; font-weight: 900; font-size: .9rem; color: #fff; background: var(--accent);
+  border: none; border-radius: 12px; padding: 9px 14px; box-shadow: 0 3px 0 #5A1FA8; cursor: pointer;
+  transition: transform .1s ease, box-shadow .1s ease, filter .12s ease;
 }
-.preview-tile:hover { transform: translateY(-3px); box-shadow: 0 7px 0 var(--accent-soft); border-color: var(--accent-hover); background: var(--surface-2); }
-.preview-tile:active { transform: translateY(4px); box-shadow: none; }
-.preview-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.tile-illus { width: 68px; height: 68px; display: grid; place-items: center; }
-.tile-illus img { max-width: 100%; max-height: 100%; object-fit: contain; }
-.tile-label { font-weight: 800; font-size: .88rem; }
+.act:hover { filter: brightness(1.06); }
+.act:active { transform: translateY(3px); box-shadow: none; }
+.act-ghost { background: var(--surface); color: var(--navy); border: 2px solid var(--border); box-shadow: 0 3px 0 var(--border); padding: 7px 13px; }
+.act-ghost:hover { border-color: var(--accent-hover); }
+.act-big { font-size: 1.05rem; padding: 13px 24px; border-radius: 14px; }
 
-/* Explore — last group, tinted to read as the free-roam, no-score option. */
-.group-explore {
-  background: linear-gradient(150deg, var(--accent-soft), var(--surface) 75%);
-  border-color: var(--accent-hover); box-shadow: 0 6px 0 var(--accent-soft);
+/* the big one: Countries spans two columns, icon large on the right, copy on the left */
+.hcard-big { grid-column: span 2; flex-direction: row-reverse; align-items: center; gap: 18px; }
+.hcard-big .hcard-art { margin: 0; flex: none; }
+.hcard-big .hcard-art img { height: 230px; }
+.hcard-big .hcard-body { margin: 0; }
+.hcard-big .hcard-title { font-size: 2.1rem; }
+.hcard-big .hcard-sub { font-size: 1.05rem; }
+/* wide cards: icon on the left, copy on the right */
+.hcard-wide { grid-column: span 2; flex-direction: row; align-items: center; gap: 18px; }
+.hcard-wide .hcard-art { margin: 0; flex: none; }
+.hcard-wide .hcard-art img { height: 170px; }
+.hcard-wide .hcard-body { margin: 0; }
+.hcard-wide .hcard-title { font-size: 1.7rem; }
+
+/* tints — soft washes so each category reads at a glance */
+.tint-green  { background: linear-gradient(160deg, #EAF7DC, var(--surface) 70%); }
+.tint-yellow { background: linear-gradient(160deg, #FFF1CC, var(--surface) 70%); }
+.tint-pink   { background: linear-gradient(160deg, #FFE1EE, var(--surface) 70%); }
+.tint-blue   { background: linear-gradient(160deg, #D9F1FD, var(--surface) 70%); }
+.tint-teal   { background: linear-gradient(160deg, #D6F4F1, var(--surface) 70%); }
+.tint-purple { background: linear-gradient(160deg, var(--accent-soft), var(--surface) 70%); }
+.tint-peach  { background: linear-gradient(160deg, #FFE7D6, var(--surface) 70%); }
+.tint-sun    { background: linear-gradient(160deg, #FFF3D6, #FFE7B8 90%); border-color: #F6D98A; box-shadow: 0 6px 0 #F0CC7A; }
+.tint-sun:hover { box-shadow: 0 10px 0 #F0CC7A; }
+.hcard-explore { border-color: var(--accent-hover); box-shadow: 0 6px 0 var(--accent-soft); }
+.hcard-explore:hover { box-shadow: 0 10px 0 var(--accent-soft); }
+
+@media (max-width: 980px) {
+  .home-grid { grid-template-columns: repeat(2, 1fr); }
+  .hcard-big .hcard-art img { height: 190px; }
 }
-
 @media (max-width: 760px) {
-  .game-group { padding: 20px 16px 22px; }
-  .group-art { height: 64px; right: 10px; top: 8px; }
-  .group-head { padding-right: 90px; }
-  .preview-tile { flex-basis: 30%; max-width: none; }
+  .home-hero { grid-template-columns: 1fr; text-align: center; gap: 12px; margin-bottom: 30px; }
+  .home-copy { align-items: center; }
+  .home-hero .lede { max-width: none; }
+  .home-scene { order: -1; max-width: 520px; margin: 0 auto; }
+  .home-bubble::after, .home-bubble::before { left: 50%; transform: translateX(-50%); }
+  .home-quick { justify-content: center; }
 }
-@media (max-width: 480px) {
-  .preview-tile { flex-basis: 42%; }
+@media (max-width: 560px) {
+  .home-grid { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 14px; }
+  .hcard, .hcard-big, .hcard-wide { grid-column: span 1; grid-row: span 1; }
+  .hcard-big, .hcard-wide { flex-direction: column; align-items: flex-start; }
+  .hcard-big .hcard-art img { height: 150px; }
+  .hcard-wide .hcard-art img { height: 130px; }
 }
 /* Fact-card icon (continents / regions / waters have no flag) — Plum Mascot element art. */
 .fc-emoji { display: inline-grid; place-items: center; width: 64px; height: 64px; flex: none; }

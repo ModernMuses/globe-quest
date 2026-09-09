@@ -209,8 +209,8 @@ img { -webkit-user-drag: none; user-select: none; }
 .preview-tile:hover { transform: translateY(-3px); box-shadow: 0 7px 0 var(--accent-soft); border-color: var(--accent-hover); background: var(--surface-2); }
 .preview-tile:active { transform: translateY(4px); box-shadow: none; }
 .preview-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.tile-illus { width: 56px; height: 56px; }
-.tile-illus .illus { width: 100%; height: 100%; }
+.tile-illus { width: 62px; height: 62px; display: grid; place-items: center; }
+.tile-illus img { max-width: 100%; max-height: 100%; object-fit: contain; }
 .tile-label { font-weight: 800; font-size: .88rem; }
 
 /* Explore — last group, tinted to read as the free-roam, no-score option. */
@@ -228,8 +228,9 @@ img { -webkit-user-drag: none; user-select: none; }
 @media (max-width: 480px) {
   .preview-tile { flex-basis: 42%; }
 }
-/* Fact-card icon (continents / waters have no flag). */
-.fc-emoji .icon { width: 52px; height: 52px; color: var(--accent); }
+/* Fact-card icon (continents / regions / waters have no flag) — Plum Mascot element art. */
+.fc-emoji { display: inline-grid; place-items: center; width: 64px; height: 64px; flex: none; }
+.fc-emoji img { max-width: 100%; max-height: 100%; object-fit: contain; }
 /* "Which one is this?" pulsing marker for Name-the-water. */
 .ask-ring { fill: none; stroke: var(--accent); stroke-width: 2; opacity: .9; animation: askpulse 1.4s ease-out infinite; }
 .ask-dot { fill: var(--accent); stroke: #fff; stroke-width: 1; }

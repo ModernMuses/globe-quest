@@ -14,7 +14,6 @@
   const BY_NAME = {};
   window.COUNTRIES.forEach((c) => { BY_ISO3[c.iso3] = c; BY_NAME[c.name] = c; }); // lookups include territories
   const ICON = window.icon;
-  const ILLUS = window.illustration;
 
   // Continents + water bodies (data/continents.js, data/waters.js).
   const CONTINENTS = window.CONTINENTS || [];
@@ -94,13 +93,13 @@
   // The four games on the home screen. Each shows category chips (except Mix) + a hover tip.
   // art = an Ume pose from the Plum Mascot set (assets/ume/2d-*.png) shown top-right of the group.
   const GAMES = [
-    { id: 'find', icon: 'crosshair', art: '2d-energetic', title: 'Find on Map', sub: 'We name it — you find it.',
+    { id: 'find', icon: 'crosshair', art: 'el-ume-runner', title: 'Find on Map', sub: 'We name it — you find it.',
       tip: 'We name a place — a country, continent, ocean, river, lake or capital, or show a flag — and you find and tap it on the map.',
       cats: ['countries', 'continents', 'regions', 'oceans', 'rivers', 'capitals', 'flags'] },
     { id: 'name', icon: 'pin', art: '2d-determined', title: 'Name It', sub: 'We show it — you name it.',
       tip: 'We mark a place on the map (or show a flag) and you pick its name from four choices.',
       cats: ['countries', 'continents', 'regions', 'oceans', 'rivers', 'capitals', 'flags'] },
-    { id: 'match', icon: 'grid', art: '2d-playful', title: 'Match', sub: 'Find the right match.',
+    { id: 'match', icon: 'grid', art: 'el-ume-cards', title: 'Match', sub: 'Find the right match.',
       tip: 'Match a country to its flag or capital, or a country to the continent it belongs to — pick the right pair.',
       cats: ['flags', 'capitals', 'continents'] },
     { id: 'mix', icon: 'shuffle', art: '2d-celebrating', title: 'Mix', sub: 'A little of everything.',
@@ -439,7 +438,8 @@
   function previewTile(illus, label, onClick) {
     const btn = el('button', 'preview-tile');
     btn.type = 'button';
-    btn.innerHTML = `<span class="tile-illus">${ILLUS(illus)}</span><span class="tile-label">${label}</span>`;
+    // category art from the Plum Mascot 'elements' set (assets/ume/el-*.png); 'mix' = Ume with flag cards
+    btn.innerHTML = `<span class="tile-illus">${UME('el-' + (illus === 'mix' ? 'ume-cards' : illus))}</span><span class="tile-label">${label}</span>`;
     btn.onclick = onClick;
     return btn;
   }
@@ -477,7 +477,7 @@
     // Explore last — the free-roam, no-score option, same tile pattern as the games
     // (and reuses their illustrations) but tinted to stand apart.
     const exTiles = EXPLORE_CATS.map((cat) => previewTile(cat, CAT_LABEL[cat], () => openExplore(cat)));
-    grid.appendChild(gameGroup('compass', 'Explore', 'Roam freely — no score.', exTiles, 'group-explore', '2d-happy'));
+    grid.appendChild(gameGroup('compass', 'Explore', 'Roam freely — no score.', exTiles, 'group-explore', 'el-ume-explorer'));
     // Ume's greeting rotates each visit home
     const HELLO = ['Hi! Where shall we go today?', 'Ready? Pick a game!', 'I bet you can find Tuvalu.', 'One more round?', 'Flags or capitals today?'];
     const hb = $('homeBubble'); if (hb) hb.textContent = HELLO[Math.floor(Math.random() * HELLO.length)];
@@ -1084,7 +1084,7 @@
     const card = $('factcard');
     const names = r.members.map((c) => c.name).sort().join(' · ');
     card.innerHTML = `
-      <div class="fc-head"><span class="fc-emoji">${ICON('map')}</span>
+      <div class="fc-head"><span class="fc-emoji">${UME('el-regions')}</span>
         <div class="fc-title"><div class="fc-name">${r.name}</div><div class="fc-sub">Region · ${r.members.length} countries</div></div></div>
       <div class="fc-regionlist">${names}</div>
       ${r.fact ? `<div class="fc-fact">${ICON('bulb')} <span><b>Did you know?</b> ${r.fact}</span></div>` : ''}`;
@@ -1093,7 +1093,7 @@
   function showContinentFact(cont) {
     const card = $('factcard');
     card.innerHTML = `
-      <div class="fc-head"><span class="fc-emoji">${ICON('map')}</span>
+      <div class="fc-head"><span class="fc-emoji">${UME('el-continents')}</span>
         <div class="fc-title"><div class="fc-name">${cont.name}</div><div class="fc-sub">Continent</div></div></div>
       <div class="fc-chips">${chipHtml([['maximize', cont.area], ['globe', cont.population], ['flag', `${cont.countries} countries`]])}</div>
       <div class="fc-fact">${ICON('bulb')} <span><b>Did you know?</b> ${cont.fact}</span></div>`;
@@ -1102,7 +1102,7 @@
   function showWaterFact(w) {
     const card = $('factcard');
     card.innerHTML = `
-      <div class="fc-head"><span class="fc-emoji">${ICON('waves')}</span>
+      <div class="fc-head"><span class="fc-emoji">${UME(RIVERLAKE_TYPES.includes(w.type) ? 'el-rivers' : 'el-oceans')}</span>
         <div class="fc-title"><div class="fc-name">${w.name}</div><div class="fc-sub">${WATER_KIND[w.type] || ''}</div></div></div>
       <div class="fc-chips">${chipHtml([['tag', WATER_KIND[w.type] || 'Water'], ['maximize', w.stat]].filter((c) => c[1]))}</div>
       <div class="fc-fact">${ICON('bulb')} <span><b>Did you know?</b> ${w.fact}</span></div>`;

@@ -168,6 +168,9 @@ img { -webkit-user-drag: none; user-select: none; }
 .home-bubble::before { content: ""; position: absolute; left: 20px; bottom: -13px; border: 10px solid transparent; border-top-color: var(--border); border-bottom: 0; }
 .home-hero h1 { font-size: clamp(2.6rem, 5.4vw, 4rem); font-weight: 900; letter-spacing: -.03em; color: var(--navy); line-height: 1; margin: 6px 0 0; }
 .home-hero h1 em { font-style: normal; color: var(--accent); }
+/* the slogan from the logo: spaced caps in plum, little yellow dots between the words */
+.home-slogan { display: flex; align-items: center; gap: 12px; margin: 2px 0 4px; font-weight: 900; font-size: .98rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); }
+.home-slogan i { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); }
 .home-hero .lede { color: var(--muted); margin: 0; font-size: 1.15rem; max-width: 36ch; }
 .home-quick { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
 .home-quick-hint { color: var(--muted); font-weight: 700; font-size: .9rem; }
@@ -243,6 +246,7 @@ img { -webkit-user-drag: none; user-select: none; }
   .home-scene { order: -1; max-width: 520px; margin: 0 auto; }
   .home-bubble::after, .home-bubble::before { left: 50%; transform: translateX(-50%); }
   .home-quick { justify-content: center; }
+  .home-slogan { justify-content: center; font-size: .86rem; letter-spacing: .16em; }
 }
 @media (max-width: 560px) {
   .home-grid { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 14px; }

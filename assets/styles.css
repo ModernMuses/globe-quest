@@ -354,10 +354,12 @@ body.full-map #roundCard {
   backdrop-filter: blur(10px) saturate(1.05); -webkit-backdrop-filter: blur(10px) saturate(1.05);
   border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow);
   padding: 18px; animation: fade .22s ease;
+  display: flex; flex-direction: column;
 }
 body.full-map #roundCard[hidden] { display: none; }
 body.full-map #roundCard .factcard { background: transparent; box-shadow: none; border: none; padding: 4px 0 0; }
-body.full-map #roundCard .round-actions { margin-top: 16px; }
+body.full-map #roundCard .round-actions { margin-top: auto; padding-top: 16px; }
+body.full-map #roundCard .round-actions .primary-btn { width: 100%; justify-content: center; }
 body.full-map #roundCard .feedback { text-align: left; }
 body.full-map #roundCard .feedback:empty { display: none; }
 
@@ -413,21 +415,29 @@ body.full-map #dock.dragging .sheet-grip { cursor: grabbing; }
 .opt.correct .opt-key, .opt.wrong .opt-key { background: rgba(255,255,255,.5); }
 
 /* ---------- feedback + fact card ---------- */
-/* The verdict: a soft callout under the fact card — Ume on the left, message + proximity pills on the right. */
+/* The verdict: a big Ume on the left, telling you the result in a speech bubble. */
 .feedback {
-  display: flex; align-items: center; gap: 12px; text-align: left; font-weight: 800; font-size: 1.02rem;
-  margin: 14px 0 0; padding: 12px 14px; border: 2px solid var(--border); border-radius: 18px;
-  background: var(--surface-2); color: var(--navy); line-height: 1.35;
+  display: flex; align-items: center; gap: 10px; text-align: left; font-weight: 800; font-size: 1.02rem;
+  margin: 18px 0 6px; padding: 0; border: 0; background: none; color: var(--navy); line-height: 1.35;
 }
-.feedback .fb-text { flex: 1 1 160px; min-width: 0; }
+.feedback .fb-text {
+  position: relative; flex: 1 1 160px; min-width: 0;
+  padding: 12px 14px; border: 2px solid var(--border); border-radius: 18px; background: var(--surface);
+  box-shadow: 0 4px 0 var(--border);
+}
+/* bubble tail pointing at Ume */
+.feedback .fb-text::before { content: ""; position: absolute; left: -13px; top: 26px; border: 11px solid transparent; border-right-color: var(--border); border-left: 0; }
+.feedback .fb-text::after  { content: ""; position: absolute; left: -10px; top: 28px; border: 9px solid transparent; border-right-color: var(--surface); border-left: 0; }
 .fb-msg b { font-weight: 900; }
 /* Ume reacts to every answer: a little celebrating / determined plum */
-.fb-ume { width: 58px; height: 58px; object-fit: contain; flex: none; animation: umepop .45s cubic-bezier(.34,1.56,.64,1); }
+.fb-ume { width: 104px; height: 104px; object-fit: contain; flex: none; animation: umepop .45s cubic-bezier(.34,1.56,.64,1); }
 @keyframes umepop { from { transform: scale(.5) rotate(-8deg); } to { transform: scale(1); } }
-/* correct = green wash, wrong = rose wash; the names carry the colour, the sentence stays calm */
-.feedback.ok { background: var(--ok-soft); border-color: #BFE3B4; }
+/* correct = green bubble, wrong = rose bubble; the names carry the colour, the sentence stays calm */
+.feedback.ok .fb-text { background: var(--ok-soft); border-color: #BFE3B4; box-shadow: 0 4px 0 #BFE3B4; }
+.feedback.ok .fb-text::before { border-right-color: #BFE3B4; } .feedback.ok .fb-text::after { border-right-color: var(--ok-soft); }
 .feedback.ok .fb-msg { color: var(--ok); }
-.feedback.no { background: var(--no-soft); border-color: #F7C3CE; }
+.feedback.no .fb-text { background: var(--no-soft); border-color: #F7C3CE; box-shadow: 0 4px 0 #F7C3CE; }
+.feedback.no .fb-text::before { border-right-color: #F7C3CE; } .feedback.no .fb-text::after { border-right-color: var(--no-soft); }
 .feedback.no .fb-msg b { color: var(--no); }
 .fb-emoji { margin-right: 4px; }
 

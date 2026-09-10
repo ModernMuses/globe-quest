@@ -1059,8 +1059,8 @@
     fb.innerHTML = UME(correct ? '2d-celebrating' : '2d-determined', 'fb-ume') + '<div class="fb-text"><div class="fb-msg">' + (correct
       ? praise()
       : wrongLabel
-        ? `You picked <b>${wrongLabel}</b>. It's <b>${cl}</b>.`
-        : `It's <b>${cl}</b>.`) + '</div></div>';
+        ? `You picked <b class="fb-wrong">${wrongLabel}</b>. It's <b class="fb-right">${cl}</b>.`
+        : `It's <b class="fb-right">${cl}</b>.`) + '</div></div>';
     // Near-miss readout: a wrong-but-close tap still earns a high proximity — it "almost" counts.
     if (prox && !correct) {
       const phrase = prox.pct >= 85 ? 'so close!' : prox.pct >= 60 ? 'close!' : prox.pct >= 35 ? 'getting warmer' : 'quite far';

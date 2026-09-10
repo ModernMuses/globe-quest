@@ -442,7 +442,8 @@ body.full-map #dock.dragging .sheet-grip { cursor: grabbing; }
 .feedback.ok .fb-msg { color: var(--ok); }
 .feedback.no .fb-text { background: var(--no-soft); border-color: #F7C3CE; box-shadow: 0 4px 0 #F7C3CE; }
 .feedback.no .fb-text::before { border-top-color: #F7C3CE; } .feedback.no .fb-text::after { border-top-color: var(--no-soft); }
-.feedback.no .fb-msg b { color: var(--no); }
+.feedback.no .fb-msg b.fb-wrong { color: var(--no); }
+.feedback.no .fb-msg b.fb-right { color: var(--ok); }
 .fb-emoji { margin-right: 4px; }
 
 .factcard {

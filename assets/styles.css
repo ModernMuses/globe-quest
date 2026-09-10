@@ -3,7 +3,7 @@
    easy to retheme. Type is Nunito, sized generously for kids and grown-ups. */
 
 :root {
-  /* Ume Labs house palette (see ../Ume Labs/index.html) — plum purple accent, cream-lavender paper */
+  /* Ume Lab house palette (see ../Ume Lab/index.html) — plum purple accent, cream-lavender paper */
   --bg: #FBF8FF;
   --bg-grad: radial-gradient(1200px 600px at 50% -10%, #ffffff 0%, #FBF8FF 55%, #F3ECFF 100%);
   --surface: #ffffff;
@@ -106,7 +106,7 @@ img { -webkit-user-drag: none; user-select: none; }
 .by-ume img.by-logo { height: 20px; width: auto; }
 .by-ume:hover { border-color: var(--accent-hover); transform: translateY(-1px); }
 .by-ume:active { transform: translateY(3px); box-shadow: none; }
-/* umelabs wordmark: lowercase, one word, two colours */
+/* umelab wordmark: lowercase, one word, two colours */
 .wordmark { font-weight: 900; letter-spacing: -.03em; color: var(--navy); }
 .wordmark b { font-weight: inherit; color: var(--accent); }
 .by-ume .wordmark { font-size: .95rem; }
@@ -360,7 +360,11 @@ body.full-map #roundCard {
   display: flex; flex-direction: column;
 }
 body.full-map #roundCard[hidden] { display: none; }
-body.full-map #roundCard .factcard { background: transparent; box-shadow: none; border: none; padding: 4px 0 0; }
+body.full-map #roundCard .factcard { background: transparent; box-shadow: none; border: none; padding: 12px 0 0; border-top: 2px solid var(--border); }
+body.full-map #roundCard .factcard::before { content: "About the answer"; display: block; font-size: .72rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+body.full-map #roundCard .chip-fact { padding: 4px 10px; font-size: .84rem; }
+body.full-map #roundCard .fc-chips { gap: 6px; margin: 10px 0 4px; }
+body.full-map #roundCard .fc-fact { font-size: .92rem; padding: 10px 12px; }
 body.full-map #roundCard .round-actions { margin-top: auto; padding-top: 16px; }
 body.full-map #roundCard .round-actions .primary-btn { width: 100%; justify-content: center; }
 body.full-map #roundCard .feedback { text-align: left; }
@@ -418,30 +422,33 @@ body.full-map #dock.dragging .sheet-grip { cursor: grabbing; }
 .opt.correct .opt-key, .opt.wrong .opt-key { background: rgba(255,255,255,.5); }
 
 /* ---------- feedback + fact card ---------- */
-/* The verdict: a big Ume on the left, telling you the result in a speech bubble. */
+/* The verdict comes FIRST: a headline ("Not quite" / "Spot on!"), the answer, and Ume reacting beside it. */
 .feedback {
-  display: flex; flex-direction: column-reverse; align-items: flex-start; gap: 10px; text-align: left;
-  font-weight: 800; font-size: 1.02rem; margin: 18px 0 6px; padding: 0; border: 0; background: none;
+  display: flex; align-items: flex-end; gap: 6px; text-align: left;
+  font-weight: 800; font-size: 1rem; margin: 0 0 16px; padding: 0; border: 0; background: none;
   color: var(--navy); line-height: 1.35;
 }
 .feedback .fb-text {
-  position: relative; width: 100%; min-width: 0;
+  position: relative; flex: 1 1 auto; min-width: 0;
   padding: 12px 14px; border: 2px solid var(--border); border-radius: 18px; background: var(--surface);
   box-shadow: 0 4px 0 var(--border);
 }
-/* bubble tail pointing DOWN at Ume, who stands under it */
-.feedback .fb-text::before { content: ""; position: absolute; left: 34px; bottom: -13px; border: 11px solid transparent; border-top-color: var(--border); border-bottom: 0; }
-.feedback .fb-text::after  { content: ""; position: absolute; left: 36px; bottom: -9px; border: 9px solid transparent; border-top-color: var(--surface); border-bottom: 0; }
+/* bubble tail pointing RIGHT at Ume */
+.feedback .fb-text::before { content: ""; position: absolute; right: -13px; bottom: 20px; border: 11px solid transparent; border-left-color: var(--border); border-right: 0; }
+.feedback .fb-text::after  { content: ""; position: absolute; right: -9px; bottom: 22px; border: 9px solid transparent; border-left-color: var(--surface); border-right: 0; }
+.fb-head { font-size: 1.3rem; font-weight: 900; letter-spacing: -.01em; line-height: 1.1; margin-bottom: 4px; }
+.fb-msg { font-weight: 700; font-size: .98rem; }
 .fb-msg b { font-weight: 900; }
 /* Ume reacts to every answer: a little celebrating / determined plum */
-.fb-ume { width: 112px; height: 112px; object-fit: contain; flex: none; margin: 4px 0 0 8px; animation: umepop .45s cubic-bezier(.34,1.56,.64,1); }
+.fb-ume { width: 84px; height: 84px; object-fit: contain; flex: none; margin: 0 -4px -4px 0; animation: umepop .45s cubic-bezier(.34,1.56,.64,1); }
 @keyframes umepop { from { transform: scale(.5) rotate(-8deg); } to { transform: scale(1); } }
 /* correct = green bubble, wrong = rose bubble; the names carry the colour, the sentence stays calm */
 .feedback.ok .fb-text { background: var(--ok-soft); border-color: #BFE3B4; box-shadow: 0 4px 0 #BFE3B4; }
-.feedback.ok .fb-text::before { border-top-color: #BFE3B4; } .feedback.ok .fb-text::after { border-top-color: var(--ok-soft); }
-.feedback.ok .fb-msg { color: var(--ok); }
+.feedback.ok .fb-text::before { border-left-color: #BFE3B4; } .feedback.ok .fb-text::after { border-left-color: var(--ok-soft); }
+.feedback.ok .fb-head { color: var(--ok); }
 .feedback.no .fb-text { background: var(--no-soft); border-color: #F7C3CE; box-shadow: 0 4px 0 #F7C3CE; }
-.feedback.no .fb-text::before { border-top-color: #F7C3CE; } .feedback.no .fb-text::after { border-top-color: var(--no-soft); }
+.feedback.no .fb-text::before { border-left-color: #F7C3CE; } .feedback.no .fb-text::after { border-left-color: var(--no-soft); }
+.feedback.no .fb-head { color: var(--no); }
 .feedback.no .fb-msg b.fb-wrong { color: var(--no); }
 .feedback.no .fb-msg b.fb-right { color: var(--ok); }
 .fb-emoji { margin-right: 4px; }
@@ -556,10 +563,8 @@ body.full-map #roundModes .chip.active { background: var(--accent); border-color
 .rbar { height: 16px; background: var(--surface-2); border: 2px solid var(--border); border-radius: 999px; overflow: hidden; }
 .rbar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 999px; transition: width .8s ease; }
 /* proximity: the near-miss readout on the reveal + the round-average metric in results */
-.fb-prox { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 8px; font-size: .8rem; font-weight: 700; color: var(--muted); }
-.fb-pill { background: var(--surface); border: 1.5px solid var(--border); border-radius: 999px; padding: 3px 9px; color: var(--navy); white-space: nowrap; }
-.fb-pill b { color: var(--accent); font-weight: 900; }
-.fb-phrase { font-weight: 800; }
+.fb-prox { margin-top: 6px; font-size: .82rem; font-weight: 700; color: var(--muted); }
+.fb-prox b { color: var(--accent); font-weight: 900; }
 .results-prox { margin: 16px 0 2px; font-size: 1.05rem; color: var(--muted); }
 .results-prox b { color: var(--accent); font-size: 1.3rem; }
 .results-prox .rp-sub { display: block; font-size: .76rem; color: var(--muted); margin: 1px 0 8px; }

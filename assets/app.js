@@ -1,4 +1,4 @@
-/* Geo Quest (formerly Globe Quest) — game controller + UI.
+/* Globe Quest — game controller + UI.
  *
  * Everything the player sees and does lives here. The country content comes
  * from window.COUNTRIES (data/countries.js) and the map from GlobeMap (map.js).

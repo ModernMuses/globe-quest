@@ -1,4 +1,4 @@
-# 🌍 Geo Quest (folder + Vercel project still named "Globe Quest" / globe-quest)
+# 🌍 Globe Quest
 
 A clean, friendly game for learning the countries of the world — maps, flags,
 capitals, and a "Did you know?" fact for every country. Built for kids **and**

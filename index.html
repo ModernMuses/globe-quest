@@ -15,6 +15,13 @@
   <script>(function(){var v=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'?t='+Date.now():'';document.write('<link rel="stylesheet" href="assets/styles.css'+v+'">');})();</script>
   <noscript><link rel="stylesheet" href="assets/styles.css" /></noscript>
   <link rel="icon" type="image/png" href="assets/ume/2d-happy.png" />
+
+  <!-- Vercel Web Analytics: cookieless page views. The script only exists on Vercel, so localhost and file:// skip it -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    (function(){if(location.protocol==='file:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')return;
+      var s=document.createElement('script');s.defer=true;s.src='/_vercel/insights/script.js';document.head.appendChild(s);})();
+  </script>
 </head>
 <body>
   <div id="app">
